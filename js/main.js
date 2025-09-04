@@ -15,15 +15,14 @@ function showLoginModal() {
     <div class="modal-content">
   <button class="modal-close" title="Fechar">&times;</button>
   <img src="assets/imgs/logo_mbesportes new 2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
-      <h2>Você precisa estar logado para favoritar produtos.</h2>
+      <h2>Você precisa estar logado para favoritar produtos!</h2>
       <br>
-      <p>Faça o login e comece a favoritar.</p>
-      <p>ou</p>
-      <p>Crie sua conta e tenha acesso ao site completo</p>
+      <p>Faça o LOGIN ou CRIE UMA CONTA</p>
+      <p>para começar a favoritar.</p>
       <br>
       <div class="modal-actions">
-        <button id="btn-login">Login</button>
-        <button id="btn-cadastro">Cadastrar</button>
+        <button id="btn-login">LOGIN</button>
+        <button id="btn-cadastro">CRIAR CONTA</button>
       </div>
     </div>
     <style>
