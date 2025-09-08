@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="../css/output.css">
 </head>
 
-<body class="font-sans w-screen h-screen">
-<h1 class="text-3xl">Faça seu Login</h1>
-
-  </body>
+<body class="w-screen h-screen font-sans">
+  <h1 class="text-3xl">Faça seu Login</h1>
   <?php include '../includes/footer.php'; ?>
+</body>
+
 </html>
