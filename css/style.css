@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "SF Pro Display";
+  src: url(../fonts/SF-Pro-Display-Regular.otf) format("opentype");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF Pro Display Bold";
+  src: url(../fonts/SF-Pro-Display-Bold.otf) format("opentype");
+  font-style: normal;
+  font-display: swap;
+}
+
+
 html,
 body {
   height: 100%;
