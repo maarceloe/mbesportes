@@ -23,7 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
       <li><a href="/mbesportes/php/logout.php" class="nav-link text-red-600 font-semibold transition-colors duration-300 hover:text-red-400">Sair</a></li>
     <?php else: ?>
       <li><a href="/mbesportes/pages/login.php" class="nav-link text-gray-300 font-medium transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Login</a></li>
-      <li><a href="/mbesportes/pages/cadastro.php" class="nav-link py-2 rounded-full text-gray-300 font-semibold transition-colors duration-300 hover:text-[#ed3814]">Cadastro</a></li>
+      <li><a href="/mbesportes/pages/cadastro.php" class="nav-link rounded-full text-gray-300 font-medium transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Cadastro</a></li>
     <?php endif; ?>
   </ul>
 </nav>
