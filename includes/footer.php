@@ -1,3 +1,3 @@
-<footer style="background: #001329; color: #ccc; text-align: center; padding: 20px; margin-top: 40px;">
-  <p>&copy; <?php echo date('Y'); ?> MB Esportes. Todos os direitos reservados.</p>
+<footer class="bg-[#001329] text-gray-300 text-center py-5 shadow-lg w-full">
+  <p class="text-base">&copy; <?php echo date('Y'); ?> MB Esportes. Todos os direitos reservados.</p>
 </footer>

@@ -8,27 +8,27 @@
   <link rel="stylesheet" href="../css/output.css">
 </head>
 
-<body class="font-sans w-screen h-screen">
+<body class="font-sans w-screen h-screen min-h-screen flex flex-col text-white justify-center items-center bg-[#001329]">
   
-  <section id="form" class="justify-center items-center flex flex-col">
-    <h1 class="text-3xl flex justify-center items-center m-16">Crie sua conta</h1>
-    <form action="login.php" class="flex flex-col">
-      <label for="name">
+  <section id="form" class="flex-1 flex-col flex justify-center">
+    <form action="login.php" class="flex flex-col gap-6 w-[400px] border-2 border-gray-300 border-solid rounded-xl p-10">
+      <h1 class="text-3xl flex justify-center items-center">Crie sua conta</h1>
+      <label for="name" class="flex flex-col">
         Nome:
-        <input type="text" id="name" name="name" required class="border border-gray-200 rounded-full">
+        <input type="text" id="name" name="name" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out">
       </label>
 
-      <label for="email">
+      <label for="email" class="flex flex-col">
         Email:
-        <input type="email" id="email" name="email" required class="border border-gray-200 rounded-full">
+        <input type="email" id="email" name="email" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out">
       </label>
 
-      <label for="senha">
+      <label for="senha" class="flex flex-col">
         Senha:
-        <input type="password" id="senha" name="senha" required class="border border-gray-200 rounded-full">
+        <input type="password" id="senha" name="senha" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out">
       </label>
 
-      <button type="submit">Criar</button>
+      <button type="submit" class="border-2 border-gray-300 border-solid rounded-xl p-2 shadow-xl hover:bg-[#ed3814] hover:border-[#ed3814] transition-all duration-200 ease-in">Criar</button>
     </form>
 
   </section>   
