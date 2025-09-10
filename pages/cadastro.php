@@ -8,10 +8,13 @@
   <link rel="stylesheet" href="../css/output.css">
 </head>
 
-<body class="font-sans w-screen h-screen min-h-screen flex flex-col text-white justify-center items-center bg-[#001329]">
+<body class="font-sans w-screen min-h-screen flex flex-col bg-[#001329dc]">
   
-  <section id="form" class="flex-1 flex-col flex justify-center">
-    <form action="login.php" class="flex flex-col gap-6 w-[400px] border-2 border-gray-300 border-solid rounded-xl p-10">
+  <section id="form" class="flex-1 grid grid-cols-3 items-center justify-center w-full">
+    <div class="flex justify-center">
+      <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+    </div>
+    <form action="login.php" class="flex flex-col gap-6 w-[400px] rounded-xl p-10 bg-gradient-to-br from-[#001329] via-[#23466d] to-[#5079a7] text-white shadow-xl/30">
       <h1 class="text-3xl flex justify-center items-center">Crie sua conta</h1>
       <label for="name" class="flex flex-col">
         Nome:
@@ -25,13 +28,15 @@
 
       <label for="senha" class="flex flex-col">
         Senha:
-        <input type="password" id="senha" name="senha" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out">
+        <input type="password" id="senha" name="senha" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out mb-[20px]">
       </label>
 
-      <button type="submit" class="border-2 border-gray-300 border-solid rounded-xl p-2 shadow-xl hover:bg-[#ed3814] hover:border-[#ed3814] transition-all duration-200 ease-in">Criar</button>
+      <button type="submit" class="border-2 border-gray-300 border-solid rounded-xl p-2 shadow-xl hover:bg-[#ed3814] hover:border-[#ed3814] transition-all duration-200 ease-in">Criar conta</button>
     </form>
-
-  </section>   
+    <div class="flex justify-center">
+      <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+    </div>
+  </section>
 
 
 
