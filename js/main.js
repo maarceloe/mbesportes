@@ -165,3 +165,69 @@ window.addEventListener('load', () => {
   const hero = document.querySelector('.hero');
   setTimeout(() => hero?.classList.add('visible'), 400);
 });
+
+
+// Verificação de senhas no cadastro
+window.addEventListener('DOMContentLoaded', () => {
+  const senha = document.getElementById("senha");
+  const confirmaSenha = document.getElementById("confirmaSenha");
+  const botao = document.querySelector("button[type='submit']");
+
+  if (senha && confirmaSenha && botao) {
+    const msg = document.createElement("span");
+    msg.classList.add("text-[#ed3814]", "text-sm", "mt-[-15px]", "mb-[10px]");
+    confirmaSenha.parentNode.appendChild(msg);
+
+    function validarSenhas() {
+      if (senha.value && confirmaSenha.value) {
+        if (senha.value !== confirmaSenha.value) {
+          msg.textContent = "As senhas não conferem!";
+          botao.disabled = true;
+          botao.classList.add("opacity-50", "cursor-not-allowed");
+        } else {
+          msg.textContent = "";
+          botao.disabled = false;
+          botao.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+      } else {
+        msg.textContent = "";
+        botao.disabled = false;
+        botao.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    }
+
+    senha.addEventListener("input", validarSenhas);
+    confirmaSenha.addEventListener("input", validarSenhas);
+  }
+});
+
+// Animação de fade-in ao carregar a página
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.remove('opacity-0');
+  document.body.classList.add('opacity-100');
+});
+
+// Função para mostrar modal customizada
+function mostrarModal(titulo, mensagem, urlRedirecionar) {
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modal-title");
+  const modalMessage = document.getElementById("modal-message");
+  const modalClose = document.getElementById("modal-close");
+
+  modalTitle.textContent = titulo;
+  modalMessage.textContent = mensagem;
+
+  // Mostrar modal
+  modal.classList.remove("opacity-0", "pointer-events-none");
+
+  // Redirecionar automaticamente depois de 2 segundos
+  const timer = setTimeout(() => {
+    window.location.href = urlRedirecionar;
+  }, 2000);
+
+  // Fechar manualmente
+  modalClose.onclick = () => {
+    clearTimeout(timer);
+    modal.classList.add("opacity-0", "pointer-events-none");
+  };
+}

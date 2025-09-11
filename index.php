@@ -11,9 +11,10 @@ session_start();
   <title>MB Esportes | Vitrine</title>
   <link rel="stylesheet" href="css/output.css">
   <link rel="stylesheet" href="css/custom.css">
+  <script src="/js/main.js"></script>
 </head>
 
-<body class="font-sans flex flex-col min-h-screen bg-gray-100 font-sfpro text-gray-800">
+<body class="font-sans flex flex-col min-h-screen bg-gray-100 font-sfpro text-gray-800 opacity-0 transition-opacity duration-2500">
 
   <!-- NAVBAR -->
   <?php include 'includes/navbar_index.php'; ?>
