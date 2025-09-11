@@ -16,7 +16,7 @@
       <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
     </div>
     <div class="flex justify-center">
-      <form action="../index.php" class="flex flex-col w-[400px] rounded-xl p-10 bg-gradient-to-br from-[#001329] via-[#23466d] to-[#5079a7] text-white shadow-xl/30">
+      <form action="../php/fazer_login.php" method="post" class="flex flex-col w-[400px] rounded-xl p-10 bg-gradient-to-br from-[#001329] via-[#23466d] to-[#5079a7] text-white shadow-xl/30">
         <h1 class="text-3xl flex justify-center items-center mb-[20px]">Faça seu login</h1>
         <label for="email" class="flex flex-col">
           Email:
