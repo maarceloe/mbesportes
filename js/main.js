@@ -202,7 +202,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Animação de fade-in ao carregar a página
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   document.body.classList.remove('opacity-0');
   document.body.classList.add('opacity-100');
 });
@@ -223,7 +223,7 @@ function mostrarModal(titulo, mensagem, urlRedirecionar) {
   // Redirecionar automaticamente depois de 2 segundos
   const timer = setTimeout(() => {
     window.location.href = urlRedirecionar;
-  }, 2000);
+  }, 5000);
 
   // Fechar manualmente
   modalClose.onclick = () => {
@@ -231,3 +231,56 @@ function mostrarModal(titulo, mensagem, urlRedirecionar) {
     modal.classList.add("opacity-0", "pointer-events-none");
   };
 }
+
+window.addEventListener("load", () => {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("sucesso") === "1") {
+    mostrarModal(
+      "Conta Criada!",
+      "Muito bom ter você cadastrado em nosso site. Você será redirecionado para a tela de login.",
+      "../pages/login.php"
+    );
+  }
+
+  if (params.get("erro") === "email") {
+    mostrarModal(
+      "Erro no cadastro!",
+      "Já existe uma conta com esse e-mail.",
+      "../pages/cadastro.php"
+    );
+  }
+
+  if (params.get("erro") === "insert") {
+    mostrarModal(
+      "Erro inesperado!",
+      "Não foi possível realizar o cadastro. Tente novamente.",
+      "../pages/cadastro.php"
+    );
+  }
+
+  // Login
+  if (params.get("login") === "ok") {
+    mostrarModal(
+      "Bem-vindo!",
+      "Login realizado com sucesso. Você será redirecionado para a tela inicial.",
+      "../index.php"
+    );
+  }
+
+  if (params.get("login") === "senha") {
+    mostrarModal(
+      "Erro!",
+      "Senha incorreta. Tente novamente.",
+      "../pages/login.php"
+    );
+  }
+
+  if (params.get("login") === "nao_encontrado") {
+    mostrarModal(
+      "Erro!",
+      "Nenhuma conta encontrada com esse e-mail.",
+      "../pages/login.php"
+    );
+  }
+});

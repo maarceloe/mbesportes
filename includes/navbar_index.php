@@ -8,20 +8,26 @@ if (session_status() === PHP_SESSION_NONE) {
   <!-- Logo -->
   <div class="flex items-center gap-3">
     <a href="/mbesportes/index.php" class="flex items-center text-white no-underline">
-      <img src="assets/imgs/logo_mbesportes.png" alt="MB Esportes" class="h-[100px] w-auto object-contain" />
+      <img src="assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[100px] w-auto object-contain" />
       <span class="ml-2 text-[1.6rem] font-bold transition-colors duration-300 hover:text-[#ed3814]">MB ESPORTES</span>
     </a>
   </div>
 
   <!-- Links da navbar -->
-  <ul class="flex gap-6 list-none">
+  <ul class="flex gap-6 list-none items-center">
     <li><a href="/mbesportes/index.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Home</a></li>
     <li><a href="/mbesportes/pages/favoritos.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Favoritos</a></li>
     <li><a href="/mbesportes/pages/sobre.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Sobre</a></li>
 
-    <?php if (isset($_SESSION['usuario_id'])): ?>
-      <li><a href="/mbesportes/php/logout.php" class="nav-link text-red-600 font-semibold transition-colors duration-300 hover:text-red-400">Sair</a></li>
+    <?php if (isset($_SESSION['id_usuario'])): ?>
+      <!-- Usuário logado: mostrar ícone + nome -->
+      <li class="flex items-center gap-2">
+  <img src="assets/icons/avatar.png" alt="Avatar" class="h-6 w-6">
+        <span class="text-gray-200 font-semibold"><?= htmlspecialchars($_SESSION['nome']); ?></span>
+        <a href="/mbesportes/php/logout.php" class="nav-link ml-4 text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Sair</a>
+      </li>
     <?php else: ?>
+      <!-- Usuário não logado: Login / Cadastro -->
       <li><a href="/mbesportes/pages/login.php" class="nav-link text-gray-300 font-medium transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Login</a></li>
       <li><a href="/mbesportes/pages/cadastro.php" class="nav-link rounded-full text-gray-300 font-medium transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Cadastro</a></li>
     <?php endif; ?>

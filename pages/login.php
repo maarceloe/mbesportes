@@ -9,18 +9,19 @@
 </head>
 
 <body class="font-sans w-screen min-h-screen flex flex-col bg-[#001329dc] opacity-0 transition-opacity duration-2500">
-  <script src="..//js/main.js"></script>
-
+  
   <section id="form" class="flex-1 grid grid-cols-3 items-center justify-center w-full">
     <div class="flex justify-center">
-      <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      <a href="/mbesportes/index.php" class="flex items-center text-white no-underline">
+        <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      </a>
     </div>
     <div class="flex justify-center">
       <form action="../php/fazer_login.php" method="post" class="flex flex-col w-[400px] rounded-xl p-10 bg-gradient-to-br from-[#001329] via-[#23466d] to-[#5079a7] text-white shadow-xl/30">
         <h1 class="text-3xl flex justify-center items-center mb-[20px]">Faça seu login</h1>
-        <label for="email" class="flex flex-col">
-          Email:
-          <input type="email" id="email" name="email" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out mb-[20px]" autocomplete="off">
+        <label for="login" class="flex flex-col">
+          Email ou Nome de usuário:
+          <input type="text" id="login" name="login" required class="border-2 border-gray-300 border-solid rounded-xl py-1 px-2 outline-none appearance-none focus:border-[#ed3814] transition duration-350 ease-in-out mb-[20px]" autocomplete="off">
         </label>
 
         <label for="senha" class="flex flex-col">
@@ -38,7 +39,9 @@
       </form>
     </div>
     <div class="flex justify-center">
-      <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      <a href="/mbesportes/index.php" class="flex items-center text-white no-underline">
+        <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      </a>
     </div>
 
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
@@ -52,9 +55,10 @@
       </div>
   </section>
 
-
+  
 
   <?php include '../includes/footer.php'; ?>
+  <script src="..//js/main.js"></script>
 </body>
 
 </html>

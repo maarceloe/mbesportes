@@ -1,5 +1,5 @@
 <?php
-// index.php
+//index.php
 session_start();
 ?>
 <!DOCTYPE html>
@@ -50,7 +50,7 @@ session_start();
   <?php include 'includes/footer.php'; ?>
 
   <script>
-    window.usuarioLogado = <?php echo json_encode(isset($_SESSION['usuario_id'])); ?>;
+    window.usuarioLogado = <?php echo json_encode(isset($_SESSION['id_usuario'])); ?>;
     console.log('usuarioLogado:', window.usuarioLogado);
   </script>
   <script src="js/main.js?v=<?= time() ?>"></script>

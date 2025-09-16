@@ -9,11 +9,12 @@
 </head>
 
 <body class="font-sans w-screen min-h-screen flex flex-col bg-[#001329dc] opacity-0 transition-opacity duration-2500">
-  <script src="..//js/main.js"></script>
 
   <section id="form" class="flex-1 grid grid-cols-3 items-center justify-center w-full">
     <div class="flex justify-center">
-      <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      <a href="/mbesportes/index.php" class="flex items-center text-white no-underline">
+        <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      </a>
     </div>
     <div class="flex justify-center">
       <form action="../php/cadastrar.php" method="post" class="flex flex-col w-[400px] rounded-xl p-10 bg-gradient-to-br from-[#001329] via-[#23466d] to-[#5079a7] text-white shadow-xl/30">
@@ -49,7 +50,9 @@
       </form>
     </div>
     <div class="flex justify-center">
-      <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      <a href="/mbesportes/index.php" class="flex items-center text-white no-underline">
+        <img src="../assets/imgs/logo_mbesportes.png" alt="Logo MB Esportes" class="h-[150px] w-auto hidden md:block" />
+      </a>
     </div>
 
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
@@ -65,6 +68,7 @@
 
 
   <?php include '../includes/footer.php'; ?>
+  <script src="..//js/main.js"></script>
 </body>
 
 </html>
