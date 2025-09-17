@@ -35,19 +35,19 @@ if ($result) {
                 <!-- CARDS: Instagram, Facebook, Mensagem WhatsApp -->
                 <?php foreach ($cards as $card): ?>
                     <?php if (!empty($card['instagram'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
                             <img src="../assets/icons/instagram.png" alt="Instagram" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Instagram</p>
                         </div>
                     <?php endif; ?>
                     <?php if (!empty($card['facebook'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
                             <img src="../assets/icons/facebook.png" alt="Facebook" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Facebook</p>
                         </div>
                     <?php endif; ?>
                     <?php if (!empty($card['whatsapp'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
                             <img src="../assets/icons/whatsapp.png" alt="Whatsapp" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Mande-nos uma mensagem!</p>
                         </div>

@@ -17,7 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
   <ul class="flex gap-6 list-none items-center">
     <li><a href="/mbesportes/index.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Home</a></li>
     <li><a href="/mbesportes/pages/favoritos.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Favoritos</a></li>
-    <li><a href="/mbesportes/pages/sobre.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Sobre</a></li>
+    <li><a href="/mbesportes/pages/sobre.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Contatos</a></li>
 
     <?php if (isset($_SESSION['id_usuario'])): ?>
       <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
