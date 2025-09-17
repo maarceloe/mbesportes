@@ -11,10 +11,11 @@ session_start();
   <title>MB Esportes | Vitrine</title>
   <link rel="stylesheet" href="css/output.css">
   <link rel="stylesheet" href="css/custom.css">
+  <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
   <script src="/js/main.js"></script>
 </head>
 
-<body class="font-sans flex flex-col min-h-screen bg-gray-100 font-sfpro text-gray-800 opacity-0 transition-opacity duration-2500">
+<body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
 
   <!-- NAVBAR -->
   <?php include 'includes/navbar_index.php'; ?>

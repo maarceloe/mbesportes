@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MB Esportes | Cadastro</title>
   <link rel="stylesheet" href="../css/output.css">
+  <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
 </head>
-
 <body class="font-sans w-screen min-h-screen flex flex-col bg-[#001329dc] opacity-0 transition-opacity duration-2500">
 
   <section id="form" class="flex-1 grid grid-cols-3 items-center justify-center w-full">

@@ -284,3 +284,22 @@ window.addEventListener("load", () => {
     );
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Mensagem de sucesso
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+        setTimeout(() => {
+            msg.style.opacity = 0;
+            setTimeout(() => msg.remove(), 500);
+        }, 3000);
+    }
+
+    // Limpar formulário e remover parâmetro da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success')) {
+        const form = document.getElementById('produtoForm');
+        if (form) form.reset();
+        window.history.replaceState(null, null, window.location.pathname);
+    }
+});

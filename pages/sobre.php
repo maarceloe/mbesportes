@@ -3,8 +3,8 @@ session_start();
 require_once '../php/config.php';
 
 $cards = [];
-$sql = "SELECT nome, descricao, icone, url FROM redes_sociais";
-$result = mysqli_query($conn, $sql);
+$sql = "SELECT descricao, telefone, email, instagram, facebook, whatsapp FROM sobre";
+$result = mysqli_query($conexao, $sql);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         $cards[] = $row;
@@ -17,122 +17,63 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MB Esportes | Vitrine</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .produto {
-            display: flex;
-            align-items: center;
-            /* Garante alinhamento vertical */
-            gap: 10px;
-            /* Espaço entre ícone e texto */
-            background: #fff;
-            border-radius: 50px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-            padding: 12px 20px;
-            cursor: pointer;
-        }
-
-        .produto img {
-            height: 28px;
-            /* Tamanho fixo para manter proporção */
-            width: auto;
-            /* Mantém proporção da imagem */
-            margin: 14px 0;
-        }
-
-        .produto p {
-            margin: 0;
-            /* Remove margem padrão do parágrafo */
-            font-size: 1.1em;
-            line-height: 1;
-            /* Centraliza melhor na altura */
-        }
-
-        .produto h3 {
-            margin: 0;
-            font-size: 1.2em;
-
-            .produto img {
-                display: flex;
-                align-self: center;
-                height: 2.2em;
-                width: auto;
-                object-fit: contain;
-                border-radius: 8px;
-            }
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .grid-produtos {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: 1fr 1fr;
-            gap: 32px;
-            justify-items: center;
-            align-items: center;
-            padding: 32px 0;
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .grid-produtos>.produto:last-child {
-            grid-column: 1 / span 2;
-        }
-
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-    </style>
+    <title>MB Esportes | Sobre</title>
+    <link rel="stylesheet" href="/mbesportes/css/output.css">
+    <link rel="stylesheet" href="/mbesportes/css/custom.css">
+    <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
 </head>
 
-<body>
+<body class="font-sans w-screen min-h-screen flex flex-col justify-center bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
 
     <!-- NAVBAR -->
-    <?php include '../includes/navbar.php'; ?>
+    <?php include '../includes/navbar_index.php'; ?>
 
     <!-- PRODUTOS -->
-    <main>
-        <section class="produtos">
-            <div class="grid-produtos">
-
-                <!-- CARDS -->
-                <div class="produto">
-                    <img src="../assets/icons/instagram.png" alt="Instagram">
-                    <p>Siga-nos no Instagram</p>
-                </div>
-
-                <div class="produto">
-                    <img src="../assets/icons/facebook.png" alt="Facebook">
-                    <p>Acompanhe-nos no Facebook</p>
-                </div>
-
-                <div class="produto">
-                    <img src="../assets/icons/whatsapp.png" alt="Whatsapp">
-                    <p>Mande-nos uma mensagem!</p>
-                </div>
-
+    <main class="flex-1 flex flex-col items-center justify-center py-10">
+        <section class="w-full max-w-2xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- CARDS: Instagram, Facebook, Mensagem WhatsApp -->
+                <?php foreach ($cards as $card): ?>
+                    <?php if (!empty($card['instagram'])): ?>
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
+                            <img src="../assets/icons/instagram.png" alt="Instagram" class="h-10 w-10 object-contain rounded-lg" />
+                            <p class="m-0 text-lg font-medium text-gray-800">Instagram</p>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (!empty($card['facebook'])): ?>
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
+                            <img src="../assets/icons/facebook.png" alt="Facebook" class="h-10 w-10 object-contain rounded-lg" />
+                            <p class="m-0 text-lg font-medium text-gray-800">Facebook</p>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (!empty($card['whatsapp'])): ?>
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
+                            <img src="../assets/icons/whatsapp.png" alt="Whatsapp" class="h-10 w-10 object-contain rounded-lg" />
+                            <p class="m-0 text-lg font-medium text-gray-800">Mande-nos uma mensagem!</p>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <!-- fim dos cards -->
             </div>
+            <!-- Informações de contato abaixo dos cards -->
+            <?php foreach ($cards as $card): ?>
+                <div class="mt-8 text-center">
+                    <?php if (!empty($card['telefone'])): ?>
+                        <p class="text-lg text-gray-800">Telefone: <?= htmlspecialchars($card['telefone']) ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($card['email'])): ?>
+                        <p class="text-lg text-gray-800">Email: <?= htmlspecialchars($card['email']) ?></p>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
         </section>
     </main>
 
     <!-- FOOTER -->
-    <?php include '../includes/footer.php'; ?>
+    <div class="fixed bottom-0 left-0 w-full z-40">
+        <?php include '../includes/footer.php'; ?>
+    </div>
+    <script src="/mbesportes/js/main.js"></script>
 
 </body>
-
 </html>
