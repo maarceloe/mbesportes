@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/09/2025 às 19:50
+-- Tempo de geração: 17/09/2025 às 23:07
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -187,15 +187,16 @@ CREATE TABLE `usuarios` (
   `nome` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `data_cadastro` datetime DEFAULT current_timestamp()
+  `data_cadastro` datetime DEFAULT current_timestamp(),
+  `is_admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `data_cadastro`) VALUES
-(1, 'adm', 'adm@adm.com', '$2y$10$i6NggWUCaKqoKbo5UC4b0ucLsYcfRI/2eTQRpAjAWjaF8bBoYMjHS', '2025-09-16 16:11:30');
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `data_cadastro`, `is_admin`) VALUES
+(1, 'adm', 'adm@adm.com', '$2y$10$i6NggWUCaKqoKbo5UC4b0ucLsYcfRI/2eTQRpAjAWjaF8bBoYMjHS', '2025-09-16 16:11:30', 1);
 
 --
 -- Índices para tabelas despejadas
