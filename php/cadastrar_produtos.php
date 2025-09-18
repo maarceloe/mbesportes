@@ -8,7 +8,7 @@ include 'config.php';
 
 // Verifica se é admin
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
-    header("Location: ../pages/index.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (mysqli_query($conexao, $sql)) {
         // Sucesso → redireciona para o formulário com mensagem
-        header("Location: ../pages/cadastro_produto.php?success=1");
+        header("Location: ../pages/cadastro_produtos.php?success=1");
         exit;
     } else {
         // Erro
@@ -47,6 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 } else {
     // Acesso direto via GET
-    header("Location: ../pages/cadastro_produto.php");
+    header("Location: ../pages/cadastro_produtos.php");
     exit;
 }

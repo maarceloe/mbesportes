@@ -31,18 +31,36 @@ session_start();
     <section class="max-w-[1200px] mx-auto px-5 py-10">
       <h2 class="text-3xl text-center mb-16 relative z-10">Produtos em Destaque</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
-
-        <!-- CARD PRODUTO -->
-        <?php for ($i = 0; $i < 6; $i++): ?>
-          <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
-            <img src="assets/imgs/bola.png" alt="Bola de Futebol" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
-            <h3 class="font-semibold text-lg mb-2">Bola de Futebol Oficial</h3>
-            <button class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-125 active:scale-95" onclick="verificaLogin(this)">
-              <span class="heart-icon text-lg">🤍</span>
-            </button>
-          </div>
-        <?php endfor; ?>
-
+        <?php
+        require_once 'php/config.php';
+        $sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade, tm.tamanho FROM produtos p
+                LEFT JOIN times t ON p.time_id = t.time_id
+                LEFT JOIN categorias c ON p.categoria_id = c.id_categoria
+                LEFT JOIN qualidades q ON p.qualidade_id = q.id_qualidade
+                LEFT JOIN tamanhos tm ON p.tamanho_id = tm.id_tamanho
+                ORDER BY p.id DESC LIMIT 12";
+        $result = mysqli_query($conexao, $sql);
+        if ($result && mysqli_num_rows($result) > 0):
+          while ($produto = mysqli_fetch_assoc($result)):
+        ?>
+            <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
+              <a href="view.php?id=<?= $produto['id'] ?>">
+                <img src="<?= !empty($produto['imagem']) ? htmlspecialchars($produto['imagem']) : 'assets/imgs/bola.png' ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
+                <h3 class="font-semibold text-lg mb-2"><?= htmlspecialchars($produto['nome']) ?></h3>
+                <p class="text-sm text-gray-600 mb-2">Categoria: <?= htmlspecialchars($produto['categoria_nome']) ?></p>
+                <p class="text-sm text-gray-600 mb-2">Time: <?= htmlspecialchars($produto['time_nome']) ?></p>
+                <p class="text-sm text-gray-600 mb-2">Tamanho: <?= htmlspecialchars($produto['tamanho']) ?></p>
+                <p class="text-sm text-gray-600 mb-2">Qualidade: <?= htmlspecialchars($produto['qualidade']) ?></p>
+                <p class="text-sm text-gray-700 mb-2"><?= htmlspecialchars($produto['descricao']) ?></p>
+              </a>
+              <button class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-125 active:scale-95" onclick="verificaLogin(this)">
+                <span class="heart-icon text-lg">🤍</span>
+              </button>
+            </div>
+          <?php endwhile;
+        else: ?>
+          <p class="col-span-4 text-center text-gray-500">Nenhum produto cadastrado.</p>
+        <?php endif; ?>
       </div>
     </section>
   </main>

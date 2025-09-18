@@ -40,7 +40,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
                 <p id="successMsg" class="mb-4 text-green-600 font-semibold">Produto cadastrado com sucesso!</p>
             <?php endif; ?>
 
-            <form id="produtoForm" action="../php/cadastrar_produto.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+            <form id="produtoForm" action="../php/cadastrar_produtos.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
                 <input type="text" name="nome" placeholder="Nome do Produto" required class="p-2 border rounded outline-none">
                 <textarea name="descricao" placeholder="Descrição" required class="p-2 border rounded outline-none"></textarea>
                 <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none">
