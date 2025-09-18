@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/09/2025 às 23:07
+-- Tempo de geração: 18/09/2025 às 20:59
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -65,7 +65,6 @@ CREATE TABLE `produtos` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `descricao` text DEFAULT NULL,
-  `preco` decimal(10,2) NOT NULL,
   `imagem` varchar(255) DEFAULT NULL,
   `categoria_id` int(11) NOT NULL,
   `time_id` int(11) NOT NULL,

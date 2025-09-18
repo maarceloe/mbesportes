@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
     $descricao = mysqli_real_escape_string($conexao, $_POST['descricao']);
-    $preco = mysqli_real_escape_string($conexao, $_POST['preco']);
     $categoria_id = mysqli_real_escape_string($conexao, $_POST['categoria_id']);
     $time_id = mysqli_real_escape_string($conexao, $_POST['time_id']);
     $tamanho_id = mysqli_real_escape_string($conexao, $_POST['tamanho_id']);
@@ -34,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Inserção no banco
-    $sql = "INSERT INTO produtos (nome, descricao, preco, imagem, categoria_id, time_id, tamanho_id, qualidade_id)
-            VALUES ('$nome', '$descricao', '$preco', '$nome_imagem', '$categoria_id', '$time_id', '$tamanho_id', '$qualidade_id')";
+    $sql = "INSERT INTO produtos (nome, descricao, imagem, categoria_id, time_id, tamanho_id, qualidade_id)
+            VALUES ('$nome', '$descricao', '$nome_imagem', '$categoria_id', '$time_id', '$tamanho_id', '$qualidade_id')";
 
     if (mysqli_query($conexao, $sql)) {
         // Sucesso → redireciona para o formulário com mensagem
