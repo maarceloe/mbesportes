@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/09/2025 às 20:59
+-- Tempo de geração: 18/09/2025 às 23:06
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -71,6 +71,13 @@ CREATE TABLE `produtos` (
   `tamanho_id` int(11) NOT NULL,
   `qualidade_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id`, `nome`, `descricao`, `imagem`, `categoria_id`, `time_id`, `tamanho_id`, `qualidade_id`) VALUES
+(1, 'Camisa Palmeiras amarela 2025', 'TESTE 12345\r\nCAMISA DO PALMEIRAS LINDA 2025', '68cc73e0a48b3.png', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -276,7 +283,7 @@ ALTER TABLE `favoritos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `qualidades`
