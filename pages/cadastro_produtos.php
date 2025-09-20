@@ -11,6 +11,17 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     header("Location: ../index.php");
     exit;
 }
+
+// Pega categorias, times, qualidades e tamanhos
+$categorias = mysqli_query($conexao, "SELECT id_categoria, nome FROM categorias ORDER BY nome ASC");
+$times = mysqli_query($conexao, "SELECT time_id, nome FROM times ORDER BY nome ASC");
+$qualidades = mysqli_query($conexao, "SELECT id_qualidade, qualidade FROM qualidades ORDER BY qualidade ASC");
+$tamanhos_result = mysqli_query($conexao, "SELECT id_tamanho, tamanho FROM tamanhos ORDER BY id_tamanho ASC");
+
+$tamanhos = [];
+while ($row = mysqli_fetch_assoc($tamanhos_result)) {
+    $tamanhos[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,66 +34,53 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/custom.css">
     <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
+    <script src="../js/main.js"></script>
 </head>
 
-<body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-100 transition-opacity duration-2500">
+<body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
 
-    <!-- NAVBAR -->
     <?php include '../includes/navbar_index.php'; ?>
 
-    <!-- FORMULÁRIO DE CADASTRO -->
     <main class="flex-1">
-        <section class="max-w-[800px] mx-auto px-5 py-10 bg-white rounded shadow-md">
+        <section class="max-w-[800px] mx-auto mt-4 px-5 py-10 bg-white rounded-[2vw] shadow-2xl border border-gray-400">
             <h1 class="text-2xl font-bold mb-6">Cadastrar Produto</h1>
 
-            <!-- Mensagem de sucesso -->
             <?php if (isset($_GET['success'])): ?>
                 <p id="successMsg" class="mb-4 text-green-600 font-semibold">Produto cadastrado com sucesso!</p>
             <?php endif; ?>
 
-            <form id="produtoForm" action="../php/cadastrar_produtos.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+            <form id="produtoForm" action="../php/cadastrar_produtos.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 ">
                 <input type="text" name="nome" placeholder="Nome do Produto" required class="p-2 border rounded outline-none">
-                <textarea name="descricao" placeholder="Descrição" required class="p-2 border rounded outline-none"></textarea>
+                <textarea name="descricao" placeholder="Descrição" required class="p-2 border rounded outline-none" spellcheck="false"></textarea>
                 <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none">
 
                 <select name="categoria_id" required class="p-2 border rounded outline-none">
                     <option value="">Selecione a Categoria</option>
-                    <?php
-                    $cats = mysqli_query($conexao, "SELECT id_categoria, nome FROM categorias");
-                    while ($cat = mysqli_fetch_assoc($cats)) {
-                        echo "<option value='{$cat['id_categoria']}'>{$cat['nome']}</option>";
-                    }
-                    ?>
+                    <?php while ($cat = mysqli_fetch_assoc($categorias)): ?>
+                        <option value="<?= $cat['id_categoria'] ?>"><?= $cat['nome'] ?></option>
+                    <?php endwhile; ?>
                 </select>
 
                 <select name="time_id" required class="p-2 border rounded outline-none">
                     <option value="">Selecione o Time</option>
-                    <?php
-                    $times = mysqli_query($conexao, "SELECT time_id, nome FROM times");
-                    while ($time = mysqli_fetch_assoc($times)) {
-                        echo "<option value='{$time['time_id']}'>{$time['nome']}</option>";
-                    }
-                    ?>
+                    <?php while ($time = mysqli_fetch_assoc($times)): ?>
+                        <option value="<?= $time['time_id'] ?>"><?= $time['nome'] ?></option>
+                    <?php endwhile; ?>
                 </select>
 
-                <select name="tamanho_id" required class="p-2 border rounded outline-none">
-                    <option value="">Selecione o Tamanho</option>
-                    <?php
-                    $tamanhos = mysqli_query($conexao, "SELECT id_tamanho, tamanho FROM tamanhos");
-                    while ($tam = mysqli_fetch_assoc($tamanhos)) {
-                        echo "<option value='{$tam['id_tamanho']}'>{$tam['tamanho']}</option>";
-                    }
-                    ?>
-                </select>
+                <div class="relative">
+                    <div id="tagsContainer" class="flex flex-wrap gap-2 p-2 border rounded cursor-default bg-white">
+                        <input id="tagInput" readonly type="text" placeholder="Selecione um tamanho..." class="cursor-pointer flex-1 outline-none placeholder:text-gray-800">
+                    </div>
+                    <ul id="optionsList" class="absolute left-0 right-0 bg-white border mt-1 max-h-40 overflow-auto hidden z-10"></ul>
+                </div>
+                <input type="hidden" name="tamanho_id" id="hiddenTamanhos">
 
                 <select name="qualidade_id" required class="p-2 border rounded outline-none">
                     <option value="">Selecione a Qualidade</option>
-                    <?php
-                    $qualidades = mysqli_query($conexao, "SELECT id_qualidade, qualidade FROM qualidades");
-                    while ($q = mysqli_fetch_assoc($qualidades)) {
-                        echo "<option value='{$q['id_qualidade']}'>{$q['qualidade']}</option>";
-                    }
-                    ?>
+                    <?php while ($q = mysqli_fetch_assoc($qualidades)): ?>
+                        <option value="<?= $q['id_qualidade'] ?>"><?= $q['qualidade'] ?></option>
+                    <?php endwhile; ?>
                 </select>
 
                 <button type="submit" class="text-gray-800 p-2 rounded-full border border-gray-800 hover:bg-[#ed3814] hover:border-[#ed3814] hover:text-white transition duration-350 ease-in-out">Cadastrar</button>
@@ -90,9 +88,69 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
         </section>
     </main>
 
-    <!-- FOOTER -->
     <?php include '../includes/footer.php'; ?>
-    <script src="../js/main.js"></script>
+
+    <script>
+        const tamanhos = <?= json_encode($tamanhos) ?>;
+
+        const tagInput = document.getElementById('tagInput');
+        const tagsContainer = document.getElementById('tagsContainer');
+        const optionsList = document.getElementById('optionsList');
+        const hiddenTamanhos = document.getElementById('hiddenTamanhos');
+
+        let selected = [];
+
+        function renderOptions() {
+            optionsList.innerHTML = '';
+            const filtered = tamanhos.filter(t => !selected.includes(t.id_tamanho));
+            filtered.forEach(t => {
+                const li = document.createElement('li');
+                li.textContent = t.tamanho;
+                li.className = 'p-2 hover:bg-gray-200 cursor-pointer';
+                li.addEventListener('click', () => selectTag(t));
+                optionsList.appendChild(li);
+            });
+            optionsList.style.display = filtered.length ? 'block' : 'none';
+        }
+
+        function selectTag(tag) {
+            selected.push(tag.id_tamanho);
+            const span = document.createElement('span');
+            span.className = 'bg-gray-200 rounded-full pl-3 flex items-center gap-1 border';
+            span.innerHTML = `${tag.tamanho} <button type="button" class="text-gray-800 font-bold cursor-pointer rounded-full px-4 py-2 hover:bg-gray-300 transition duration-350 ease-in-out">&times;</button>`;
+            span.querySelector('button').addEventListener('click', () => removeTag(tag.id_tamanho, span));
+            tagsContainer.insertBefore(span, tagInput);
+            updateHidden();
+            tagInput.value = '';
+            renderOptions();
+        }
+
+        function removeTag(id, element) {
+            selected = selected.filter(tid => tid !== id);
+            element.remove();
+            updateHidden();
+            renderOptions();
+        }
+
+        function updateHidden() {
+            hiddenTamanhos.value = selected.join(',');
+
+            // Esconder placeholder se houver pelo menos 1 tag
+            if (selected.length > 0) {
+                tagInput.placeholder = '';
+            } else {
+                tagInput.placeholder = 'Selecione um tamanho...';
+            }
+        }
+
+
+        tagInput.addEventListener('focus', renderOptions);
+        tagInput.addEventListener('input', renderOptions);
+        document.addEventListener('click', e => {
+            if (!tagsContainer.contains(e.target)) optionsList.style.display = 'none';
+        });
+    </script>
+
 </body>
 
 </html>

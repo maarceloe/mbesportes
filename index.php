@@ -8,11 +8,11 @@ session_start();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MB Esportes | Vitrine</title>
+  <title>MB Esportes | Catálogo</title>
   <link rel="stylesheet" href="css/output.css">
   <link rel="stylesheet" href="css/custom.css">
   <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
-  <script src="/js/main.js"></script>
+  <script src="js/main.js"></script>
 </head>
 
 <body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
@@ -33,25 +33,43 @@ session_start();
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
         <?php
         require_once 'php/config.php';
-        $sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade, tm.tamanho FROM produtos p
+        $sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade, GROUP_CONCAT(tm.tamanho SEPARATOR ', ') AS tamanhos
+                FROM produtos p
                 LEFT JOIN times t ON p.time_id = t.time_id
                 LEFT JOIN categorias c ON p.categoria_id = c.id_categoria
                 LEFT JOIN qualidades q ON p.qualidade_id = q.id_qualidade
-                LEFT JOIN tamanhos tm ON p.tamanho_id = tm.id_tamanho
-                ORDER BY p.id DESC LIMIT 12";
+                LEFT JOIN produtos_tamanhos pt ON pt.id_produto = p.id
+                LEFT JOIN tamanhos tm ON tm.id_tamanho = pt.id_tamanho
+                GROUP BY p.id
+                ORDER BY p.id DESC
+                LIMIT 12;";
         $result = mysqli_query($conexao, $sql);
         if ($result && mysqli_num_rows($result) > 0):
           while ($produto = mysqli_fetch_assoc($result)):
         ?>
             <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
-              <a href="view.php?id=<?= $produto['id'] ?>">
-                <img src="<?= !empty($produto['imagem']) ? htmlspecialchars($produto['imagem']) : 'assets/imgs/bola.png' ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
+              <a href="/mbesportes/pages/view_card.php?id=<?= $produto['id'] ?>">
+                <?php
+                $defaultFallback = '/mbesportes/assets/imgs/bola.png';
+                if (!empty($produto['imagem'])) {
+                  $val = trim($produto['imagem']);
+                  if (preg_match('#^https?://#i', $val)) {
+                    // URL externa
+                    $imgSrc = htmlspecialchars($val);
+                  } else {
+                    // Caminho relativo dentro do projeto
+                    $imgSrc = '/mbesportes/assets/imgs/produtos/' . htmlspecialchars($val);
+                  }
+                } else {
+                  $imgSrc = $defaultFallback;
+                }
+                ?>
+                <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
                 <h3 class="font-semibold text-lg mb-2"><?= htmlspecialchars($produto['nome']) ?></h3>
-                <p class="text-sm text-gray-600 mb-2">Categoria: <?= htmlspecialchars($produto['categoria_nome']) ?></p>
-                <p class="text-sm text-gray-600 mb-2">Time: <?= htmlspecialchars($produto['time_nome']) ?></p>
-                <p class="text-sm text-gray-600 mb-2">Tamanho: <?= htmlspecialchars($produto['tamanho']) ?></p>
+                <p class="text-sm text-gray-600 mb-2">
+                  Tamanhos: <?= htmlspecialchars($produto['tamanhos'] ?? '—') ?>
+                </p>
                 <p class="text-sm text-gray-600 mb-2">Qualidade: <?= htmlspecialchars($produto['qualidade']) ?></p>
-                <p class="text-sm text-gray-700 mb-2"><?= htmlspecialchars($produto['descricao']) ?></p>
               </a>
               <button class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-125 active:scale-95" onclick="verificaLogin(this)">
                 <span class="heart-icon text-lg">🤍</span>
@@ -72,7 +90,14 @@ session_start();
     window.usuarioLogado = <?php echo json_encode(isset($_SESSION['id_usuario'])); ?>;
     console.log('usuarioLogado:', window.usuarioLogado);
   </script>
-  <script src="js/main.js?v=<?= time() ?>"></script>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("opacity-100");
+    });
+  </script>
+
+
 </body>
 
 </html>

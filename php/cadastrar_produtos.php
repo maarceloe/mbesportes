@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
     $descricao = mysqli_real_escape_string($conexao, $_POST['descricao']);
-    $categoria_id = mysqli_real_escape_string($conexao, $_POST['categoria_id']);
-    $time_id = mysqli_real_escape_string($conexao, $_POST['time_id']);
-    $tamanho_id = mysqli_real_escape_string($conexao, $_POST['tamanho_id']);
-    $qualidade_id = mysqli_real_escape_string($conexao, $_POST['qualidade_id']);
+    $categoria_id = intval($_POST['categoria_id']);
+    $time_id = intval($_POST['time_id']);
+    $qualidade_id = intval($_POST['qualidade_id']);
 
+    // Upload de imagem
     $nome_imagem = null;
     if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
         $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
@@ -32,18 +32,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Inserção no banco
-    $sql = "INSERT INTO produtos (nome, descricao, imagem, categoria_id, time_id, tamanho_id, qualidade_id)
-            VALUES ('$nome', '$descricao', '$nome_imagem', '$categoria_id', '$time_id', '$tamanho_id', '$qualidade_id')";
-
-    if (mysqli_query($conexao, $sql)) {
-        // Sucesso → redireciona para o formulário com mensagem
-        header("Location: ../pages/cadastro_produtos.php?success=1");
-        exit;
-    } else {
-        // Erro
+    // Inserção no banco de produtos
+    $sql = "INSERT INTO produtos (nome, descricao, imagem, categoria_id, time_id, qualidade_id)
+            VALUES ('$nome', '$descricao', '$nome_imagem', $categoria_id, $time_id, $qualidade_id)";
+    if (!mysqli_query($conexao, $sql)) {
         die("Erro ao cadastrar produto: " . mysqli_error($conexao));
     }
+
+    $id_produto = mysqli_insert_id($conexao);
+
+    // Salva tamanhos selecionados (multiple tags)
+    $tamanhos_selecionados = isset($_POST['tamanho_id']) ? explode(',', $_POST['tamanho_id']) : [];
+    foreach ($tamanhos_selecionados as $id_tamanho) {
+        $id_tamanho = intval($id_tamanho);
+        $sql_tam = "INSERT INTO produtos_tamanhos (id_produto, id_tamanho) VALUES ($id_produto, $id_tamanho)";
+        mysqli_query($conexao, $sql_tam);
+    }
+
+    // Redireciona com sucesso
+    header("Location: ../pages/cadastro_produtos.php?success=1");
+    exit;
 
 } else {
     // Acesso direto via GET

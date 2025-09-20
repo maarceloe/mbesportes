@@ -9,12 +9,22 @@ if ($id <= 0) {
     exit;
 }
 
-$sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade, tm.tamanho FROM produtos p
-        LEFT JOIN times t ON p.time_id = t.time_id
-        LEFT JOIN categorias c ON p.categoria_id = c.id_categoria
-        LEFT JOIN qualidades q ON p.qualidade_id = q.id_qualidade
-        LEFT JOIN tamanhos tm ON p.tamanho_id = tm.id_tamanho
-        WHERE p.id = $id LIMIT 1";
+$sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade FROM produtos p
+    LEFT JOIN times t ON p.time_id = t.time_id
+    LEFT JOIN categorias c ON p.categoria_id = c.id_categoria
+    LEFT JOIN qualidades q ON p.qualidade_id = q.id_qualidade
+    LEFT JOIN produtos_tamanhos pt ON p.id = pt.id_produto
+    WHERE p.id = $id LIMIT 1";
+$result = mysqli_query($conexao, $sql);
+$produto = mysqli_fetch_assoc($result);
+
+// Buscar tamanhos do produto
+$tamanhos = [];
+$sql_tam = "SELECT tm.tamanho FROM produtos_tamanhos pt LEFT JOIN tamanhos tm ON tm.id_tamanho = pt.id_tamanho WHERE pt.id_produto = $id ORDER BY tm.id_tamanho ASC";
+$result_tam = mysqli_query($conexao, $sql_tam);
+while ($row = mysqli_fetch_assoc($result_tam)) {
+    $tamanhos[] = $row['tamanho'];
+}
 $result = mysqli_query($conexao, $sql);
 $produto = mysqli_fetch_assoc($result);
 
@@ -25,6 +35,7 @@ if (!$produto) {
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,26 +44,49 @@ if (!$produto) {
     <link rel="stylesheet" href="/mbesportes/css/custom.css">
     <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
 </head>
+
 <body class="font-sans min-h-screen flex flex-col bg-gray-100 text-gray-800">
     <?php include '../includes/navbar_index.php'; ?>
     <main class="flex-1 flex flex-col items-center justify-center py-10">
-        <section class="w-full max-w-md mx-auto">
-            <div class="relative bg-white border border-gray-300 p-8 rounded-2xl text-center shadow-xl">
-                <img src="<?= !empty($produto['imagem']) ? htmlspecialchars($produto['imagem']) : '../assets/imgs/bola.png' ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" class="w-full max-h-[250px] object-contain mb-6 rounded-md">
-                <h2 class="font-bold text-2xl mb-2 text-gray-900"><?= htmlspecialchars($produto['nome']) ?></h2>
-                <p class="text-base text-gray-700 mb-2">Categoria: <span class="font-semibold"><?= htmlspecialchars($produto['categoria_nome']) ?></span></p>
-                <p class="text-base text-gray-700 mb-2">Time: <span class="font-semibold"><?= htmlspecialchars($produto['time_nome']) ?></span></p>
-                <p class="text-base text-gray-700 mb-2">Tamanho: <span class="font-semibold"><?= htmlspecialchars($produto['tamanho']) ?></span></p>
-                <p class="text-base text-gray-700 mb-2">Qualidade: <span class="font-semibold"><?= htmlspecialchars($produto['qualidade']) ?></span></p>
-                <p class="text-base text-gray-700 mb-4"><?= htmlspecialchars($produto['descricao']) ?></p>
-                <button class="btn-favorito w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-110 active:scale-95 mx-auto mb-2" onclick="verificaLogin(this)">
-                    <span class="heart-icon text-2xl">🤍</span>
-                </button>
-                <a href="/mbesportes/index.php" class="inline-block mt-4 text-[#ed3814] font-semibold hover:underline hover:scale-105 transition-transform duration-200">Voltar para Vitrine</a>
+        <section class="w-full max-w-4xl mx-auto">
+            <?php
+            $defaultFallback = '/mbesportes/assets/imgs/bola.png';
+            if (!empty($produto['imagem'])) {
+                $val = trim($produto['imagem']);
+                if (preg_match('#^https?://#i', $val)) {
+                    $imgSrc = htmlspecialchars($val);
+                } else {
+                    $imgSrc = '/mbesportes/assets/imgs/produtos/' . htmlspecialchars($val);
+                }
+            } else {
+                $imgSrc = $defaultFallback;
+            }
+            ?>
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-10">
+                <div class="flex-shrink-0 flex justify-center items-center w-full md:w-[50%]">
+                    <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-w-[500px] max-h-[500px] object-contain rounded-xl">
+                </div>
+                <div class="w-full md:w-[50%] flex flex-col justify-start items-start">
+                    <h2 class="font-bold text-3xl mb-4 text-gray-900 text-left w-full"><?= htmlspecialchars($produto['nome']) ?></h2>
+                    <p class="text-base text-gray-700 mb-2">Categoria: <span class="font-semibold"><?= htmlspecialchars($produto['categoria_nome']) ?></span></p>
+                    <p class="text-base text-gray-700 mb-2">Time: <span class="font-semibold"><?= htmlspecialchars($produto['time_nome']) ?></span></p>
+                    <p class="text-base text-gray-700 mb-2">Tamanhos disponíveis:
+                        <span class="font-semibold">
+                            <?= $tamanhos ? htmlspecialchars(implode(', ', $tamanhos)) : '—' ?>
+                        </span>
+                    </p>
+                    <p class="text-base text-gray-700 mb-2">Qualidade: <span class="font-semibold"><?= htmlspecialchars($produto['qualidade']) ?></span></p>
+                    <p class="text-base text-gray-700 mb-6 text-left w-full"><?= htmlspecialchars($produto['descricao']) ?></p>
+                    <button class="btn-favorito mt-2 px-6 py-2 rounded-full bg-white text-gray-800 font-semibold shadow hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#ed3814] focus:ring-offset-2 flex items-center justify-center text-lg" style="min-width:150px; min-height:48px;" onclick="verificaLogin(this)">
+                        <span class="heart-icon text-2xl">🤍 Favoritar</span>
+                    </button>
+                    <button type="button" onclick="window.location.href='/mbesportes/index.php'" class="mt-4 px-6 py-2 rounded-full bg-[#ed3814] text-white font-semibold shadow hover:bg-[#c72d10] transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#ed3814] focus:ring-offset-2">Voltar para a página principal</button>
+                </div>
             </div>
         </section>
     </main>
     <?php include '../includes/footer.php'; ?>
     <script src="/mbesportes/js/main.js"></script>
 </body>
+
 </html>

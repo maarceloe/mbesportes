@@ -1,3 +1,10 @@
+console.log("main.js carregado ✅");
+
+window.addEventListener("load", () => {
+  document.body.classList.add("opacity-100");
+  console.log("Classe opacity-100 aplicada");
+})
+
 window.verificaLogin = function (botao) {
   if (!window.usuarioLogado) {
     showLoginModal();
