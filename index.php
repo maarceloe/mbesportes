@@ -41,8 +41,7 @@ session_start();
                 LEFT JOIN produtos_tamanhos pt ON pt.id_produto = p.id
                 LEFT JOIN tamanhos tm ON tm.id_tamanho = pt.id_tamanho
                 GROUP BY p.id
-                ORDER BY p.id DESC
-                LIMIT 12;";
+                ORDER BY p.id DESC";
         $result = mysqli_query($conexao, $sql);
         if ($result && mysqli_num_rows($result) > 0):
           while ($produto = mysqli_fetch_assoc($result)):
