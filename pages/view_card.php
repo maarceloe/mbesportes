@@ -43,10 +43,19 @@ if (!$produto) {
     <link rel="stylesheet" href="/mbesportes/css/output.css">
     <link rel="stylesheet" href="/mbesportes/css/custom.css">
     <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
+    <script src="/mbesportes/js/main.js"></script>
 </head>
 
-<body class="font-sans min-h-screen flex flex-col bg-gray-100 text-gray-800">
+<body class="font-sans min-h-screen flex flex-col bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
     <?php include '../includes/navbar_index.php'; ?>
+    <!-- Botão de voltar no canto superior esquerdo -->
+    <div class="w-full flex items-start">
+        <button type="button" onclick="window.location.href='/mbesportes/index.php'" class="ml-4 mt-4 w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814]">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 8 L12 16 L22 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
     <main class="flex-1 flex flex-col items-center justify-center py-10">
         <section class="w-full max-w-4xl mx-auto">
             <?php
@@ -68,25 +77,34 @@ if (!$produto) {
                 </div>
                 <div class="w-full md:w-[50%] flex flex-col justify-start items-start">
                     <h2 class="font-bold text-3xl mb-4 text-gray-900 text-left w-full"><?= htmlspecialchars($produto['nome']) ?></h2>
-                    <p class="text-base text-gray-700 mb-2">Categoria: <span class="font-semibold"><?= htmlspecialchars($produto['categoria_nome']) ?></span></p>
-                    <p class="text-base text-gray-700 mb-2">Time: <span class="font-semibold"><?= htmlspecialchars($produto['time_nome']) ?></span></p>
-                    <p class="text-base text-gray-700 mb-2">Tamanhos disponíveis:
+                    <p class="text-base text-gray-800 mb-2">Categoria: <span class="font-semibold"><?= htmlspecialchars($produto['categoria_nome']) ?></span></p>
+                    <p class="text-base text-gray-800 mb-2">Time: <span class="font-semibold"><?= htmlspecialchars($produto['time_nome']) ?></span></p>
+                    <p class="text-base text-gray-800 mb-2">Tamanhos disponíveis:
                         <span class="font-semibold">
                             <?= $tamanhos ? htmlspecialchars(implode(', ', $tamanhos)) : '—' ?>
                         </span>
                     </p>
-                    <p class="text-base text-gray-700 mb-2">Qualidade: <span class="font-semibold"><?= htmlspecialchars($produto['qualidade']) ?></span></p>
-                    <p class="text-base text-gray-700 mb-6 text-left w-full"><?= htmlspecialchars($produto['descricao']) ?></p>
-                    <button class="btn-favorito mt-2 px-6 py-2 rounded-full bg-white text-gray-800 font-semibold shadow hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#ed3814] focus:ring-offset-2 flex items-center justify-center text-lg" style="min-width:150px; min-height:48px;" onclick="verificaLogin(this)">
-                        <span class="heart-icon text-2xl">🤍 Favoritar</span>
+                    <p class="text-base text-gray-800 mb-2">Qualidade: <span class="font-semibold"><?= htmlspecialchars($produto['qualidade']) ?></span></p>
+                    <p class="text-base text-gray-800 mb-6 text-left w-full"><?= htmlspecialchars($produto['descricao']) ?></p>
+                        <button class="btn-favorito mt-2 px-6 py-2 rounded-full bg-white text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-200 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814]" style="min-width:150px; min-height:48px;" onclick="verificaLogin(this)">
+                        <span class="heart-icon text-2xl">🤍</span>
                     </button>
-                    <button type="button" onclick="window.location.href='/mbesportes/index.php'" class="mt-4 px-6 py-2 rounded-full bg-[#ed3814] text-white font-semibold shadow hover:bg-[#c72d10] transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#ed3814] focus:ring-offset-2">Voltar para a página principal</button>
                 </div>
             </div>
         </section>
     </main>
     <?php include '../includes/footer.php'; ?>
-    <script src="/mbesportes/js/main.js"></script>
+
+    <script>
+        window.usuarioLogado = <?php echo json_encode(isset($_SESSION['id_usuario'])); ?>;
+        console.log('usuarioLogado:', window.usuarioLogado);
+    </script>
+
+    <script>
+        window.addEventListener("load", () => {
+            document.body.classList.add("opacity-100");
+        });
+    </script>
 </body>
 
 </html>

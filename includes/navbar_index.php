@@ -16,12 +16,14 @@ if (session_status() === PHP_SESSION_NONE) {
   <!-- Links da navbar -->
   <ul class="flex gap-6 list-none items-center">
     <li><a href="/mbesportes/index.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Home</a></li>
-    <li><a href="/mbesportes/pages/favoritos.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Favoritos</a></li>
+    <?php if (isset($_SESSION['id_usuario'])): ?>
+      <li><a href="/mbesportes/pages/favoritos.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Favoritos</a></li>
+    <?php endif; ?>
     <li><a href="/mbesportes/pages/sobre.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Contatos</a></li>
 
     <?php if (isset($_SESSION['id_usuario'])): ?>
       <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
-        <li><a href="/mbesportes/pages/cadastro_produtos.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Cadastrar Produto</a></li>
+        <li><a href="/mbesportes/pages/adm_fun.php" class="nav-link text-gray-300 font-medium relative transition-transform duration-200 hover:text-[#ed3814] hover:scale-110">Funções ADM</a></li>
       <?php endif; ?>
       <li class="flex items-center gap-2">
         <img src="/mbesportes/assets/icons/avatar.png" alt="Avatar" class="h-6 w-6">

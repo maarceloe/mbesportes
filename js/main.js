@@ -21,7 +21,7 @@ function showLoginModal() {
   modal.innerHTML = `
     <div class="modal-content">
   <button class="modal-close" title="Fechar">&times;</button>
-  <img src="assets/imgs/logo_mbesportes new 2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
+  <img src="/mbesportes/assets/imgs/logo_mbesportes new 2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
       <h2>Você precisa estar logado para favoritar produtos!</h2>
       <br>
       <p>Faça o LOGIN ou CRIE UMA CONTA</p>
@@ -227,10 +227,10 @@ function mostrarModal(titulo, mensagem, urlRedirecionar) {
   // Mostrar modal
   modal.classList.remove("opacity-0", "pointer-events-none");
 
-  // Redirecionar automaticamente depois de 2 segundos
+  // Redirecionar automaticamente depois de 3 segundos e meio
   const timer = setTimeout(() => {
     window.location.href = urlRedirecionar;
-  }, 5000);
+  }, 3500);
 
   // Fechar manualmente
   modalClose.onclick = () => {
@@ -309,4 +309,46 @@ document.addEventListener('DOMContentLoaded', () => {
         if (form) form.reset();
         window.history.replaceState(null, null, window.location.pathname);
     }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".btn-favorito").forEach(button => {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      if (!window.usuarioLogado) {
+        showLoginModal();
+        return;
+      }
+
+      const productId = this.getAttribute("data-produto-id");
+      const icone = this.querySelector(".heart-icon");
+      const card = this.closest(".relative"); // card container
+
+      fetch("/mbesportes/php/favoritar.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `id_produto=${productId}`
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "favorited") {
+          this.classList.add("favoritado");
+          if (icone) icone.textContent = "❤️";
+        } else if (data.status === "unfavorited" && card) {
+          this.classList.remove("favoritado");
+          if (icone) icone.textContent = "🤍";
+
+          // Animação de saída do card
+          card.style.transition = "all 0.5s ease";
+          card.style.opacity = 0;
+          card.style.transform = "translateY(-20px) scale(0.8)";
+          setTimeout(() => {
+            card.remove(); // remove do DOM depois da animação
+          }, 500); // duração da animação
+        }
+      })
+      .catch(err => console.error("Erro:", err));
+    });
+  });
 });

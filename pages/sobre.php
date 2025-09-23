@@ -27,36 +27,42 @@ if ($result) {
 
     <!-- NAVBAR -->
     <?php include '../includes/navbar_index.php'; ?>
-
+    <div class="flex items-center gap-4 px-5 py-4">
+        <button type="button" onclick="window.location.href='/mbesportes/index.php'"
+            class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814]">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 8 L12 16 L22 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
     <!-- PRODUTOS -->
     <main class="flex-1 flex flex-col items-center justify-center py-10">
         <section class="w-full max-w-2xl mx-auto">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <!-- CARDS: Instagram, Facebook, Mensagem WhatsApp -->
-                <?php foreach ($cards as $card): ?>
+            <img src="/mbesportes/assets/imgs/logo_mbesportes new 2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
+            <?php foreach ($cards as $card): ?>
+                <?php if (!empty($card['descricao'])): ?>
+                    <p class="mb-8 text-lg text-gray-800 text-center"><?= nl2br(htmlspecialchars($card['descricao'])) ?></p>
+                <?php endif; ?>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     <?php if (!empty($card['instagram'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-110 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
                             <img src="../assets/icons/instagram.png" alt="Instagram" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Instagram</p>
                         </div>
                     <?php endif; ?>
                     <?php if (!empty($card['facebook'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-110 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
                             <img src="../assets/icons/facebook.png" alt="Facebook" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Facebook</p>
                         </div>
                     <?php endif; ?>
                     <?php if (!empty($card['whatsapp'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-110 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
                             <img src="../assets/icons/whatsapp.png" alt="Whatsapp" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Mande-nos uma mensagem!</p>
                         </div>
                     <?php endif; ?>
-                <?php endforeach; ?>
-            <!-- fim dos cards -->
-            </div>
-            <!-- Informações de contato abaixo dos cards -->
-            <?php foreach ($cards as $card): ?>
+                </div>
                 <div class="mt-8 text-center">
                     <?php if (!empty($card['telefone'])): ?>
                         <p class="text-lg text-gray-800">Telefone: <?= htmlspecialchars($card['telefone']) ?></p>
@@ -76,4 +82,5 @@ if ($result) {
     <script src="/mbesportes/js/main.js"></script>
 
 </body>
+
 </html>

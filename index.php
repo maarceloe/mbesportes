@@ -47,6 +47,17 @@ session_start();
         if ($result && mysqli_num_rows($result) > 0):
           while ($produto = mysqli_fetch_assoc($result)):
         ?>
+            <?php
+            // Verifica se o produto está favoritado pelo usuário logado
+            $favoritado = false;
+            if (isset($_SESSION['id_usuario'])) {
+              $id_usuario = intval($_SESSION['id_usuario']);
+              $id_produto = intval($produto['id']);
+              $sql_fav = "SELECT 1 FROM favoritos WHERE id_usuario = $id_usuario AND id_produto = $id_produto LIMIT 1";
+              $res_fav = mysqli_query($conexao, $sql_fav);
+              $favoritado = mysqli_num_rows($res_fav) > 0;
+            }
+            ?>
             <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
               <a href="/mbesportes/pages/view_card.php?id=<?= $produto['id'] ?>">
                 <?php
@@ -54,10 +65,8 @@ session_start();
                 if (!empty($produto['imagem'])) {
                   $val = trim($produto['imagem']);
                   if (preg_match('#^https?://#i', $val)) {
-                    // URL externa
                     $imgSrc = htmlspecialchars($val);
                   } else {
-                    // Caminho relativo dentro do projeto
                     $imgSrc = '/mbesportes/assets/imgs/produtos/' . htmlspecialchars($val);
                   }
                 } else {
@@ -67,12 +76,14 @@ session_start();
                 <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
                 <h3 class="font-semibold text-lg mb-2"><?= htmlspecialchars($produto['nome']) ?></h3>
                 <p class="text-sm text-gray-600 mb-2">
-                  Tamanhos: <?= htmlspecialchars($produto['tamanhos'] ?? '—') ?>
+                  Tamanhos disponíveis: <?= htmlspecialchars($produto['tamanhos'] ?? '—') ?>
                 </p>
                 <p class="text-sm text-gray-600 mb-2">Qualidade: <?= htmlspecialchars($produto['qualidade']) ?></p>
               </a>
-              <button class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-125 active:scale-95" onclick="verificaLogin(this)">
-                <span class="heart-icon text-lg">🤍</span>
+              <button
+                class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-125 active:scale-95 border-2 border-gray-300 cursor-pointer <?= $favoritado ? 'favoritado bg-amber-50' : 'bg-white' ?>"
+                data-produto-id="<?= $produto['id'] ?>">
+                <span class="heart-icon text-lg"><?= $favoritado ? '❤️' : '🤍' ?></span>
               </button>
             </div>
           <?php endwhile;
