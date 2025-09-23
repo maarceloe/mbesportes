@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/09/2025 às 03:10
+-- Tempo de geração: 23/09/2025 às 23:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -60,7 +60,7 @@ CREATE TABLE `favoritos` (
 --
 
 INSERT INTO `favoritos` (`id_favoritos`, `id_usuario`, `id_produto`, `data_adicao`) VALUES
-(5, 1, 1, '2025-09-22 20:29:13');
+(9, 1, 1, '2025-09-23 18:07:48');
 
 -- --------------------------------------------------------
 
@@ -310,7 +310,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `id_favoritos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_favoritos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
