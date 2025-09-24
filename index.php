@@ -80,7 +80,7 @@ session_start();
                 <p class="text-sm text-gray-600 mb-2">Qualidade: <?= htmlspecialchars($produto['qualidade']) ?></p>
               </a>
               <button
-                class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-125 active:scale-95 border-2 border-gray-300 cursor-pointer <?= $favoritado ? 'favoritado bg-amber-50' : 'bg-white' ?>"
+                class="btn-favorito absolute top-2 right-2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-125 active:scale-95 border-2 border-gray-300 cursor-pointer <?= $favoritado ? 'favoritado bg-white' : 'bg-white' ?>"
                 data-produto-id="<?= $produto['id'] ?>">
                 <span class="heart-icon text-lg"><?= $favoritado ? '❤️' : '🤍' ?></span>
               </button>

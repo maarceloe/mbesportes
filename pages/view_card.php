@@ -49,10 +49,12 @@ if (!$produto) {
 <body class="font-sans min-h-screen flex flex-col bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
     <?php include '../includes/navbar_index.php'; ?>
     <!-- Botão de voltar no canto superior esquerdo -->
-    <div class="w-full flex items-start">
-        <button type="button" onclick="window.location.href='/mbesportes/index.php'" class="ml-4 mt-4 w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814]">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 8 L12 16 L22 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <div class="w-full flex items-start p-2">
+        <button type="button" onclick="window.location.href='/mbesportes/index.php'"
+            class="w-12 h-12 ml-2 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
         </button>
     </div>
@@ -98,7 +100,7 @@ if (!$produto) {
                     }
                     ?>
                     <button
-                        class="btn-favorito mt-2 px-6 py-2 rounded-full text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-200 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814] <?= $favoritado ? 'favoritado bg-amber-50' : 'bg-white' ?>"
+                        class="btn-favorito mt-2 px-6 py-2 rounded-full text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-200 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814] <?= $favoritado ? 'favoritado bg-white' : 'bg-white' ?>"
                         style="min-width:150px; min-height:48px;"
                         data-produto-id="<?= $produto['id'] ?>"
                         onclick="verificaLogin(this)">
