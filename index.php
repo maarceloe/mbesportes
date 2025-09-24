@@ -1,6 +1,7 @@
 <?php
-//index.php
+// index.php
 session_start();
+require_once 'php/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -20,43 +21,128 @@ session_start();
   <!-- NAVBAR -->
   <?php include 'includes/navbar_index.php'; ?>
 
-  <!-- BANNER / HERO -->
-  <header class="hero text-white mt-[-10px] p-16 text-center rounded-lg shadow-lg">
-    <h1 class="text-5xl mb-4 font-bold">Bem-vindo à MB Esportes</h1>
-    <p class="text-xl">Confira os melhores produtos esportivos em destaque!</p>
+  <!-- BANNER -->
+  <header class="hero relative text-white p-16 text-center rounded-b-xl shadow-lg overflow-hidden">
+    <h1 class="text-5xl mb-2 font-bold">Bem-vindo à MB Esportes</h1>
+    <p class="text-xl">Confira nossos melhores produtos esportivos!</p>
   </header>
 
   <!-- PRODUTOS -->
   <main class="flex-1">
-    <section class="max-w-[1200px] mx-auto px-5 py-10">
-      <h2 class="text-3xl text-center mb-16 relative z-10">Produtos em Destaque</h2>
+    <section class="max-w-[1200px] mx-auto px-4 py-10">
+      <h2 class="text-3xl text-center mb-8 relative z-10">Todos os produtos</h2>
+
+      <!-- FILTROS -->
+      <div class="max-w-[1200px] mx-0 mt-4 mb-8 justify-center items-center">
+        <form method="GET" action="index.php" class="flex flex-wrap justify-center items-center gap-2">
+
+          <!-- Categoria -->
+          <select name="categoria" class="border border-gray-300 rounded-lg px-3 py-2">
+            <option value="">Todas as categorias</option>
+            <?php
+            $categorias = mysqli_query($conexao, "SELECT id_categoria, nome FROM categorias ORDER BY nome");
+            if ($categorias && mysqli_num_rows($categorias) > 0) {
+              while ($cat = mysqli_fetch_assoc($categorias)) {
+                $selected = (isset($_GET['categoria']) && $_GET['categoria'] == $cat['id_categoria']) ? 'selected' : '';
+                echo "<option value='" . intval($cat['id_categoria']) . "' $selected>" . htmlspecialchars($cat['nome']) . "</option>";
+              }
+            }
+            ?>
+          </select>
+
+          <!-- Time -->
+          <select name="time" class="border border-gray-300 rounded-lg px-3 py-2">
+            <option value="">Todos os times</option>
+            <?php
+            $times = mysqli_query($conexao, "SELECT time_id, nome FROM times ORDER BY nome");
+            if ($times && mysqli_num_rows($times) > 0) {
+              while ($t = mysqli_fetch_assoc($times)) {
+                $selected = (isset($_GET['time']) && $_GET['time'] == $t['time_id']) ? 'selected' : '';
+                echo "<option value='" . intval($t['time_id']) . "' $selected>" . htmlspecialchars($t['nome']) . "</option>";
+              }
+            }
+            ?>
+          </select>
+
+          <!-- Qualidade -->
+          <select name="qualidade" class="border border-gray-300 rounded-lg px-3 py-2">
+            <option value="">Todas as qualidades</option>
+            <?php
+            $qualidades = mysqli_query($conexao, "SELECT id_qualidade, qualidade FROM qualidades ORDER BY qualidade");
+            if ($qualidades && mysqli_num_rows($qualidades) > 0) {
+              while ($q = mysqli_fetch_assoc($qualidades)) {
+                $selected = (isset($_GET['qualidade']) && $_GET['qualidade'] == $q['id_qualidade']) ? 'selected' : '';
+                echo "<option value='" . intval($q['id_qualidade']) . "' $selected>" . htmlspecialchars($q['qualidade']) . "</option>";
+              }
+            }
+            ?>
+          </select>
+
+          <!-- Busca -->
+          <input type="text" name="busca" placeholder="Buscar produtos..."
+            value="<?= isset($_GET['busca']) ? htmlspecialchars($_GET['busca']) : '' ?>"
+            class="border border-gray-300 rounded-lg px-4 py-2 w-48 m-2 outline-none">
+
+          <!-- Botão -->
+          <button type="submit"
+            class="bg-[#ed3814] text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition">
+            Filtrar
+          </button>
+        </form>
+      </div>
+
+      <!-- LISTAGEM PRODUTOS -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
         <?php
-        require_once 'php/config.php';
-        $sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade, GROUP_CONCAT(tm.tamanho SEPARATOR ', ') AS tamanhos
+        // ==== Filtros ====
+        $where = [];
+
+        if (!empty($_GET['busca'])) {
+          $busca = mysqli_real_escape_string($conexao, $_GET['busca']);
+          $where[] = "(p.nome LIKE '%$busca%' OR p.descricao LIKE '%$busca%')";
+        }
+
+        if (!empty($_GET['categoria'])) {
+          $where[] = "p.categoria_id = " . intval($_GET['categoria']);
+        }
+
+        if (!empty($_GET['time'])) {
+          $where[] = "p.time_id = " . intval($_GET['time']);
+        }
+
+        if (!empty($_GET['qualidade'])) {
+          $where[] = "p.qualidade_id = " . intval($_GET['qualidade']);
+        }
+
+        $whereSQL = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+        // ==== Query ====
+        $sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade,
+                GROUP_CONCAT(tm.tamanho SEPARATOR ', ') AS tamanhos
                 FROM produtos p
                 LEFT JOIN times t ON p.time_id = t.time_id
                 LEFT JOIN categorias c ON p.categoria_id = c.id_categoria
                 LEFT JOIN qualidades q ON p.qualidade_id = q.id_qualidade
                 LEFT JOIN produtos_tamanhos pt ON pt.id_produto = p.id
                 LEFT JOIN tamanhos tm ON tm.id_tamanho = pt.id_tamanho
+                $whereSQL
                 GROUP BY p.id
-                ORDER BY p.id DESC";
+                ORDER BY RAND()";
+
         $result = mysqli_query($conexao, $sql);
-        if ($result && mysqli_num_rows($result) > 0):
-          while ($produto = mysqli_fetch_assoc($result)):
-        ?>
-            <?php
-            // Verifica se o produto está favoritado pelo usuário logado
+
+        if ($result && mysqli_num_rows($result) > 0) {
+          while ($produto = mysqli_fetch_assoc($result)) {
+            // Verifica favoritos
             $favoritado = false;
             if (isset($_SESSION['id_usuario'])) {
               $id_usuario = intval($_SESSION['id_usuario']);
               $id_produto = intval($produto['id']);
               $sql_fav = "SELECT 1 FROM favoritos WHERE id_usuario = $id_usuario AND id_produto = $id_produto LIMIT 1";
               $res_fav = mysqli_query($conexao, $sql_fav);
-              $favoritado = mysqli_num_rows($res_fav) > 0;
+              $favoritado = ($res_fav && mysqli_num_rows($res_fav) > 0);
             }
-            ?>
+        ?>
             <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
               <a href="/mbesportes/pages/view_card.php?id=<?= $produto['id'] ?>">
                 <?php
@@ -72,7 +158,8 @@ session_start();
                   $imgSrc = $defaultFallback;
                 }
                 ?>
-                <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
+                <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy"
+                  class="w-full max-h-[180px] object-contain mb-4 rounded-md">
                 <h3 class="font-semibold text-lg mb-2"><?= htmlspecialchars($produto['nome']) ?></h3>
                 <p class="text-sm text-gray-600 mb-2">
                   Tamanhos disponíveis: <?= htmlspecialchars($produto['tamanhos'] ?? '—') ?>
@@ -85,10 +172,12 @@ session_start();
                 <span class="heart-icon text-lg"><?= $favoritado ? '❤️' : '🤍' ?></span>
               </button>
             </div>
-          <?php endwhile;
-        else: ?>
-          <p class="col-span-4 text-center text-gray-500">Nenhum produto cadastrado.</p>
-        <?php endif; ?>
+        <?php
+          }
+        } else {
+          echo '<p class="col-span-4 text-center text-gray-500">Nenhum produto encontrado.</p>';
+        }
+        ?>
       </div>
     </section>
   </main>
@@ -98,16 +187,12 @@ session_start();
 
   <script>
     window.usuarioLogado = <?php echo json_encode(isset($_SESSION['id_usuario'])); ?>;
-    console.log('usuarioLogado:', window.usuarioLogado);
   </script>
-
   <script>
     window.addEventListener("load", () => {
       document.body.classList.add("opacity-100");
     });
   </script>
-
-
 </body>
 
 </html>

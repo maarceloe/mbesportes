@@ -23,22 +23,23 @@ if ($result) {
     <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
 </head>
 
-<body class="font-sans w-screen min-h-screen flex flex-col justify-center bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
+<body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
 
     <!-- NAVBAR -->
     <?php include '../includes/navbar_index.php'; ?>
     <div class="flex items-center gap-4 px-5 py-4">
         <button type="button" onclick="window.location.href='/mbesportes/index.php'"
-            class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814]">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 8 L12 16 L22 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            class="w-12 h-12 ml-2 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
         </button>
     </div>
     <!-- PRODUTOS -->
-    <main class="flex-1 flex flex-col items-center justify-center py-10">
+    <main class="flex flex-col items-center justify-center">
         <section class="w-full max-w-2xl mx-auto">
-            <img src="/mbesportes/assets/imgs/logo_mbesportes new 2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
+            <img src="/mbesportes/assets/imgs/logo_mbesportes_new_2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
             <?php foreach ($cards as $card): ?>
                 <?php if (!empty($card['descricao'])): ?>
                     <p class="mb-8 text-lg text-gray-800 text-center"><?= nl2br(htmlspecialchars($card['descricao'])) ?></p>

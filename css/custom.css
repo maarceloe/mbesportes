@@ -1,88 +1,108 @@
-    /* Scrollbar personalizada */
-    body::-webkit-scrollbar {
-      width: 8px;
-      background: none;
-    }
+/* Scrollbar personalizada */
+body::-webkit-scrollbar {
+  width: 8px;
+  background: none;
+}
 
-    body::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 8px;
-    }
+body::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 8px;
+}
 
-    body::-webkit-scrollbar-thumb:hover {
-      background: #646464;
-    }
+body::-webkit-scrollbar-thumb:hover {
+  background: #646464;
+}
 
-    /* Animações */
-    @keyframes hero-gradient-roll {
-      0% {
-        background-position: 0% 50%;
-      }
+/* Animações */
+@keyframes hero-gradient-roll {
+  0% {
+    background-position: 0% 50%;
+  }
 
-      100% {
-        background-position: 200% 50%;
-      }
-    }
+  100% {
+    background-position: 200% 50%;
+  }
+}
 
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    /* Hero gradient animation */
-    .hero {
-      background: linear-gradient(270deg, #001329, #23466d, #5079a7, #23466d, #001329);
-      background-size: 200% 100%;
-      animation: hero-gradient-roll 8s linear infinite;
-    }
+/* Hero gradient animation */
+.hero {
+  position: relative; /* garante que o ::before se posicione relativo a este header */
+  border-radius: 0 0 1rem 1rem; /* equivalente a rounded-b-xl */
+  overflow: hidden; /* para o pseudo-elemento respeitar o border-radius */
+  color: white;
+  z-index: 0; /* conteúdo acima do pseudo-elemento */
+}
 
-    .hero h1 {
-      opacity: 0;
-      animation: fadeInDown 1s ease forwards;
-    }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* ocupa 100% do header */
+  background: linear-gradient(
+    270deg,
+    #001329,
+    #23466d,
+    #5079a7,
+    #23466d,
+    #001329
+  );
+  background-size: 200% 100%;
+  animation: hero-gradient-roll 8s linear infinite;
+  z-index: -1; /* fica atrás do conteúdo do header */
+  border-radius: inherit; /* herda o border-radius do header */
+}
 
-    .hero p {
-      opacity: 0;
-      animation: fadeInUp 1s ease forwards;
-      animation-delay: 0.5s;
-    }
+.hero h1 {
+  opacity: 0;
+  animation: fadeInDown 1s ease forwards;
+}
 
-    .nav-link {
-      position: relative;
-      display: inline-block;
-      padding-bottom: 2px;
-    }
+.hero p {
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.5s;
+}
 
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: 0;
-      left: 0;
-      background-color: #ed3814;
-      transition: width 0.3s ease;
-    }
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
 
-    .nav-link:hover::after {
-      width: 100%;
-    }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #ed3814;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
