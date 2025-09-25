@@ -32,6 +32,12 @@ if (!$produto) {
     echo '<p class="text-center text-red-500 mt-10">Produto não encontrado.</p>';
     exit;
 }
+
+// Buscar informações da seção "Sobre nós"
+$sql = "SELECT descricao, telefone, email, instagram, facebook, whatsapp FROM sobre";
+$result = mysqli_query($conexao, $sql);
+$row = mysqli_fetch_assoc($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -100,12 +106,16 @@ if (!$produto) {
                     }
                     ?>
                     <button
-                        class="btn-favorito mt-2 px-6 py-2 rounded-full text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-200 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814] <?= $favoritado ? 'favoritado bg-white' : 'bg-white' ?>"
+                        class="btn-favorito mt-2 px-6 py-2 rounded-full text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-300 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814] <?= $favoritado ? 'favoritado bg-white' : 'bg-white' ?>"
                         style="min-width:150px; min-height:48px;"
                         data-produto-id="<?= $produto['id'] ?>"
                         onclick="verificaLogin(this)">
                         <span class="heart-icon text-2xl"><?= $favoritado ? '❤️' : '🤍' ?></span>
                     </button>
+                    <a href="<?php echo $row['whatsapp']; ?>" target="_blank"
+                        class="px-4 py-2 mt-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 hover:scale-110 shadow-xl">
+                        Falar no WhatsApp
+                    </a>
                 </div>
             </div>
         </section>

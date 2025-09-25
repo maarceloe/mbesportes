@@ -57,7 +57,7 @@
 
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
       <div class="bg-white rounded-xl p-8 text-center w-[300px] max-w-full shadow-lg">
-        <img src="../assets/imgs/logo_mbesportes new 2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
+        <img src="../assets/imgs/logo_mbesportes_new_2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
         <h2 id="modal-title" class="text-xl font-semibold mb-4">Titulo do modal</h2>
         <p id="modal-message" class="text-gray-700 mb-2">Mensagem do modal</p>
         <button id="modal-close" class="bg-[#ed3814] text-white px-4 py-2 rounded-xl hover:bg-[#d72f0f] transition-colors">Fechar</button>

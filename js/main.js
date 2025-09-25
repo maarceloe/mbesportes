@@ -339,13 +339,13 @@ document.addEventListener("DOMContentLoaded", () => {
             this.classList.remove("favoritado");
             if (icone) icone.textContent = "🤍";
 
-            // Animação de saída do card
-            card.style.transition = "all 0.5s ease";
-            card.style.opacity = 0;
-            card.style.transform = "translateY(-20px) scale(0.8)";
-            setTimeout(() => {
-              card.remove(); // remove do DOM depois da animação
-            }, 500); // duração da animação
+            // // Animação de saída do card
+            // card.style.transition = "all 0.5s ease";
+            // card.style.opacity = 0;
+            // card.style.transform = "translateY(-20px) scale(0.8)";
+            // setTimeout(() => {
+            //   card.remove(); // remove do DOM depois da animação
+            // }, 500); // duração da animação
           }
         })
         .catch((err) => console.error("Erro:", err));
