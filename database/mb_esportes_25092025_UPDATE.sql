@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/09/2025 às 23:09
+-- Tempo de geração: 25/09/2025 às 23:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -60,7 +60,7 @@ CREATE TABLE `favoritos` (
 --
 
 INSERT INTO `favoritos` (`id_favoritos`, `id_usuario`, `id_produto`, `data_adicao`) VALUES
-(9, 1, 1, '2025-09-23 18:07:48');
+(10, 1, 1, '2025-09-25 14:23:24');
 
 -- --------------------------------------------------------
 
@@ -146,7 +146,7 @@ CREATE TABLE `sobre` (
 --
 
 INSERT INTO `sobre` (`id_sobre`, `descricao`, `telefone`, `email`, `instagram`, `facebook`, `whatsapp`) VALUES
-(1, 'Loja especializada em camisetsa de times, oferecendo qualidade e ótimo atendimento.', '(18) 99674-9599', 'mbesportesvendas@outlook.com', 'https://www.instagram.com/mb.esportes/', 'https://www.facebook.com/profile.php?id=61560672672461', 'https://wa.me/5518996749599');
+(1, 'Loja especializada em camisetsa de times, oferecendo qualidade e ótimo atendimento.', '(18) 99674-9599', 'mbesportesvendas@outlook.com', 'https://www.instagram.com/mb.esportes/', 'https://www.facebook.com/profile.php?id=61560672672461', 'https://api.whatsapp.com/send?phone=5518996749599&text=Ol%C3%A1%2C+vim+pelo+site+MB+Esportes+e+quero+saber+mais+sobre+um+produto');
 
 -- --------------------------------------------------------
 
@@ -229,7 +229,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `data_cadastro`, `is_admin`) VALUES
-(1, 'adm', 'adm@adm.com', '$2y$10$i6NggWUCaKqoKbo5UC4b0ucLsYcfRI/2eTQRpAjAWjaF8bBoYMjHS', '2025-09-16 16:11:30', 1);
+(1, 'adm', 'adm@adm.com', '$2y$10$i6NggWUCaKqoKbo5UC4b0ucLsYcfRI/2eTQRpAjAWjaF8bBoYMjHS', '2025-09-16 16:11:30', 1),
+(2, 'teste', 'teste@teste.com', '$2y$10$rfx0STpSv5E0I3DRZKQyG.CEs3O3EBxlh8.iIoTMuJ.ezyJqK41XK', '2025-09-25 14:24:37', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -310,7 +311,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `id_favoritos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_favoritos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -346,7 +347,7 @@ ALTER TABLE `times`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas

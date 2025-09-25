@@ -41,7 +41,7 @@ if (session_status() === PHP_SESSION_NONE) {
   </div>
 
   <!-- Menu Mobile (vertical) -->
-  <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-[#001329] flex flex-col items-center justify-center gap-6 text-lg text-gray-300 hidden z-40 sm:hidden">
+  <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-[#001329] flex flex-col items-center justify-center gap-6 text-lg text-gray-300 z-40 sm:hidden">
     <a href="/mbesportes/index.php" class="transition hover:text-[#ed3814]">Home</a>
     <?php if (isset($_SESSION['id_usuario'])): ?>
       <a href="/mbesportes/pages/favoritos.php" class="transition hover:text-[#ed3814]">Favoritos</a>
