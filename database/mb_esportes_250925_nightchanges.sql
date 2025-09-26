@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/09/2025 às 23:09
+-- Tempo de geração: 26/09/2025 às 04:54
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -75,15 +75,16 @@ CREATE TABLE `produtos` (
   `imagem` varchar(255) DEFAULT NULL,
   `categoria_id` int(11) NOT NULL,
   `time_id` int(11) NOT NULL,
-  `qualidade_id` int(11) NOT NULL
+  `qualidade_id` int(11) NOT NULL,
+  `estoque` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `produtos`
 --
 
-INSERT INTO `produtos` (`id`, `nome`, `descricao`, `imagem`, `categoria_id`, `time_id`, `qualidade_id`) VALUES
-(1, 'Camisa Palmeiras Amarela 25/26', 'Uma incrivel camisa do verdão que foi inspirada na gigante história do palmeiras, quando representou a seleção brasileira contra a seleção do uruguai em um jogo oficial.', '68d199d2a83f2.png', 1, 1, 1);
+INSERT INTO `produtos` (`id`, `nome`, `descricao`, `imagem`, `categoria_id`, `time_id`, `qualidade_id`, `estoque`) VALUES
+(1, 'Camisa Palmeiras Amarela 25/26', 'Uma incrivel camisa do verdão que foi inspirada na gigante história do palmeiras, quando representou a seleção brasileira contra a seleção do uruguai em um jogo oficial.', '68d199d2a83f2.png', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
