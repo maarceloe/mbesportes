@@ -9,7 +9,7 @@
   <link rel="shortcut icon" href="/mbesportes/assets/imgs/logo_mbesportes_new_2.ico" type="image/x-icon">
 </head>
 
-<body class="font-sans w-screen min-h-screen flex flex-col bg-[#001329dc] opacity-0 transition-opacity duration-2500">
+<body class="font-sans w-screen min-h-screen flex flex-col bg-[#001329dc] opacity-0 transition-opacity duration-3000">
   
   <section id="form" class="flex-1 grid grid-cols-3 items-center justify-center w-full">
     <div class="flex justify-center">
