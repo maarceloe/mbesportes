@@ -61,7 +61,7 @@ while ($row = mysqli_fetch_assoc($res_tam)) {
     <script src="../js/main.js"></script>
 </head>
 
-<body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800">
+<body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
     <?php include '../includes/navbar_index.php'; ?>
 
     <main class="flex items-start gap-4 px-4 mt-4">

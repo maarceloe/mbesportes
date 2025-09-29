@@ -75,6 +75,30 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: inherit; /* herda o border-radius do header */
 }
 
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-overlay .logos {
+  width: 200%; /* 2x a largura do container */
+  height: 100%;
+  background: url("/mbesportes/assets/imgs/logosHeader/logos-strip.png") repeat-x;
+  background-size: auto 150px;
+  background-position: center center;
+  opacity: 0.35;
+
+  animation: logos-scroll 30s linear infinite;
+}
+
+@keyframes logos-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 .hero h1 {
   opacity: 0;
   animation: fadeInDown 1s ease forwards;
