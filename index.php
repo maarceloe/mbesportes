@@ -25,6 +25,7 @@ require_once 'php/config.php';
   <header class="hero relative text-white p-16 text-center rounded-b-xl shadow-lg overflow-hidden">
     <div class="hero-overlay">
       <div class="logos"></div>
+      <div class="logos"></div>
     </div>
     <h1 class="text-5xl mb-2 font-bold">Bem-vindo à MB Esportes</h1>
     <p class="text-xl">Confira nossos melhores produtos esportivos!</p>
