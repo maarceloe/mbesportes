@@ -4,6 +4,11 @@ body::-webkit-scrollbar {
   background: none;
 }
 
+/* Evita scrollbar horizontal causada por elementos posicionados fora da viewport (ex: animação de logos) */
+html, body {
+  overflow-x: hidden;
+}
+
 body::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 8px;
@@ -62,6 +67,13 @@ body::-webkit-scrollbar-thumb:hover {
   to   { transform: translateX(-50%); }
 }
 
+/* Background-position based scroll to avoid a hard cut at the end of the cycle.
+   Animating background-position is seamless for repeating backgrounds. */
+@keyframes logos-scroll-bg {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
 /* Hero gradient animation */
 .hero {
   position: relative; /* garante que o ::before se posicione relativo a este header */
@@ -115,14 +127,12 @@ body::-webkit-scrollbar-thumb:hover {
   top: 0;
   width: 200%;
   height: 100%;
-  background: url('/mbesportes/assets/imgs/logosHeader/logos-strip.png') left center / auto 150px repeat-x;
+  background: url('/mbesportes/assets/imgs/logosHeader/logos-strip.png') repeat-x center/auto 150px;
   opacity: 0.35;
 
-  /* animação contínua baseada em transform — suave e sem jumps.
-    usamos 'alternate' para ir e voltar sem teletransporte e ease-in-out para suavizar a transição */
-  animation: logos-scroll 30s ease-in-out infinite alternate;
-  will-change: transform, opacity;
-  transform: translate3d(0,0,0);
+  /* animação contínua usando background-position para evitar cortes secos no fim do ciclo */
+  animation: logos-scroll-bg 30s linear infinite;
+  will-change: background-position, opacity;
 }
 
 /* (kept) keyframes logos-scroll defined above — translateX -50% is used for seamless loop */
