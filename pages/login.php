@@ -48,12 +48,11 @@
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
       <div class="bg-white rounded-xl p-8 text-center w-[300px] max-w-full shadow-lg">
         <img src="../assets/imgs/logo_mbesportes_new_2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
-        <h2 id="modal-title" class="text-xl font-semibold mb-4">Logado!</h2>
-        <p id="modal-message" class="text-gray-800 mb-2">Seja bem-vindo</p>
-        <p id="modal-message" class="text-gray-800 mb-2">Aproveite e desfrute do catálogo da MB Esportes</p>
-        <p id="modal-message" class="text-gray-800 mb-4">Você será redirecionado para a tela principal do site.</p>
+        <h2 id="modal-title" class="text-xl font-semibold mb-4"></h2>
+        <p id="modal-message" class="text-gray-800 mb-4"></p>
         <button id="modal-close" class="bg-[#ed3814] text-white px-4 py-2 rounded-xl hover:bg-[#d72f0f] transition-colors">Fechar</button>
       </div>
+    </div>
   </section>
 
   

@@ -241,7 +241,8 @@ function mostrarModal(titulo, mensagem, urlRedirecionar) {
 
 window.addEventListener("load", () => {
   const params = new URLSearchParams(window.location.search);
-
+  
+  // Cadastro
   if (params.get("sucesso") === "1") {
     mostrarModal(
       "Conta Criada!",
