@@ -99,7 +99,7 @@ if ($result) {
                     $favoritado = mysqli_num_rows($res_fav) > 0;
                 }
                 ?>
-                <div class="flex flex-row gap-4 bg-white border border-gray-300 p-5 mx-48 rounded-lg text-center shadow-xl transform transition-transform duration-500">
+                <div class="flex flex-col sm:flex-row gap-4 bg-white border border-gray-300 p-5 rounded-lg text-left shadow-xl transform transition-transform duration-500 w-full max-w-[1100px] mx-auto">
                     <?php
                     $defaultFallback = '/mbesportes/assets/imgs/bola.png';
                     if (!empty($produto['imagem'])) {
@@ -113,38 +113,39 @@ if ($result) {
                         $imgSrc = $defaultFallback;
                     }
                     ?>
-                    <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class=" w-fit max-h-[150px] object-contain rounded-md">
-                    <h3 class="text-base"><?= htmlspecialchars($produto['nome']) ?></h3>
-                    <p class="text-base text-gray-800"><span class="font-semibold">Categoria </span><span><?= htmlspecialchars($produto['categoria_nome']) ?></span></p>
-                    <p class="text-base text-gray-800"><span class="font-semibold">Time: </span><span><?= htmlspecialchars($produto['time_nome']) ?></span></p>
-                    <p class="text-base text-gray-800">
-                        <span class="font-semibold">Tamanhos disponíveis: </span><span><?= htmlspecialchars($produto['tamanhos'] ?? '—') ?></span>
-                    </p>
-                    <p class="text-base text-gray-800"><span class="font-semibold">Qualidade: </span><span><?= htmlspecialchars($produto['qualidade']) ?></span></p>
-                    <p class="text-base text-gray-800 text-left"><span class="font-semibold">Descrição: </span><span><?= htmlspecialchars($produto['descricao']) ?></span></p>
+                    <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full sm:w-[150px] max-h-[150px] object-contain rounded-md mx-auto sm:mx-0">
+                    <div class="flex-1 sm:pl-4">
+                        <h3 class="text-lg font-semibold mb-1"><?= htmlspecialchars($produto['nome']) ?></h3>
+                        <div class="text-sm text-gray-800 space-y-1">
+                            <p><span class="font-semibold">Categoria:</span> <?= htmlspecialchars($produto['categoria_nome']) ?></p>
+                            <p><span class="font-semibold">Time:</span> <?= htmlspecialchars($produto['time_nome']) ?></p>
+                            <p><span class="font-semibold">Tamanhos disponíveis:</span> <?= htmlspecialchars($produto['tamanhos'] ?? '—') ?></p>
+                            <p><span class="font-semibold">Qualidade:</span> <?= htmlspecialchars($produto['qualidade']) ?></p>
+                            <p class="text-sm"><span class="font-semibold">Descrição:</span> <?= htmlspecialchars($produto['descricao']) ?></p>
+                        </div>
+                    </div>
 
                     <!-- Botões de editar e excluir -->
-                    <div class="flex flex-col gap-2 ml-auto">
+                    <div class="flex flex-col gap-2 mt-4 sm:mt-0 sm:ml-4 items-center justify-center">
                         <button type="button" onclick="window.location.href='/mbesportes/pages/edicao_produto.php?id=<?= $produto['id'] ?>'"
-                            class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer">
+                            class="w-26 h-10 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg sm:rounded-full bg-blue-600 text-white shadow-xl transition-transform duration-300 hover:scale-110 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                             </svg>
                         </button>
                         <button type="button" data-id="<?= $produto['id'] ?>" data-nome="<?= htmlspecialchars($produto['nome'], ENT_QUOTES) ?>"
-                            class="btn-delete-product w-10 h-10 flex items-center justify-center rounded-full bg-red-600 text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer">
+                            class="btn-delete-product w-26 h-10 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg sm:rounded-full bg-red-600 text-white shadow-xl transition-transform duration-300 hover:scale-110 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer">
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                             </svg>
+                        </button>
                     </div>
-                <?php endwhile;
+                </div>
+            <?php endwhile;
         else: ?>
-                <p class="col-span-4 text-center text-gray-500">Nenhum produto cadastrado.</p>
-            <?php endif; ?>
-                </div>
-
-                </div>
+            <p class="col-span-4 text-center text-gray-500">Nenhum produto cadastrado.</p>
+        <?php endif; ?>
     </main>
 
     <?php include '../includes/footer.php'; ?>

@@ -22,7 +22,7 @@ require_once 'php/config.php';
   <?php include 'includes/navbar_index.php'; ?>
 
   <!-- BANNER -->
-  <header class="hero relative text-white p-16 text-center rounded-b-xl shadow-lg overflow-hidden">
+  <header class="hero relative text-white p-16 text-center rounded-b-xl shadow-lg overflow-hidden -translate-y-3">
     <div class="hero-overlay">
       <div class="logos"></div>
       <div class="logos"></div>

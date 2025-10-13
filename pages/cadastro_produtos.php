@@ -40,17 +40,17 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
 <body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
     <?php include '../includes/navbar_index.php'; ?>
 
-    <main class="flex items-start gap-4 px-4 mt-4">
-        <div class="inline-flex max-w-fit items-center">
+    <main class="flex flex-1 items-center justify-center px-4 relative min-h-[calc(100vh-130px)]">
+        <div class="absolute top-4 left-4 z-50">
                 <button type="button" onclick="window.location.href='adm_fun.php'"
-                    class="w-12 h-12 ml-2 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
+                    class="w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-8 h-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
             </div>
-        <section class="flex-1 max-w-[800px] mx-auto px-5 py-10 bg-white rounded-[2vw] shadow-2xl border border-gray-400 mb-6">
+        <section class="flex-1 max-w-[900px] w-full mx-auto px-5 py-8 bg-white rounded-[12px] shadow-2xl border border-gray-400">
             <h1 class="text-2xl font-bold mb-6">Cadastrar Produto</h1>
 
             <?php if (isset($_GET['success'])): ?>
@@ -58,40 +58,48 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
             <?php endif; ?>
 
             <form id="produtoForm" action="../php/cadastrar_produtos.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 ">
-                <input type="text" name="nome" placeholder="Nome do Produto" required class="p-2 border rounded outline-none">
-                <textarea name="descricao" placeholder="Descrição" required class="p-2 border rounded outline-none" spellcheck="false"></textarea>
-                <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none">
+                <input type="text" name="nome" placeholder="Nome do Produto" required class="p-3 border rounded outline-none w-full">
+                <textarea name="descricao" placeholder="Descrição" required class="p-3 border rounded outline-none w-full" spellcheck="false"></textarea>
+                <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none w-full">
 
-                <select name="categoria_id" required class="p-2 border rounded outline-none">
-                    <option value="">Selecione a Categoria</option>
-                    <?php while ($cat = mysqli_fetch_assoc($categorias)): ?>
-                        <option value="<?= $cat['id_categoria'] ?>"><?= $cat['nome'] ?></option>
-                    <?php endwhile; ?>
-                </select>
-
-                <select name="time_id" required class="p-2 border rounded outline-none">
-                    <option value="">Selecione o Time</option>
-                    <?php while ($time = mysqli_fetch_assoc($times)): ?>
-                        <option value="<?= $time['time_id'] ?>"><?= $time['nome'] ?></option>
-                    <?php endwhile; ?>
-                </select>
-
-                <div class="relative">
-                    <div id="tagsContainer" class="flex flex-wrap gap-2 p-2 border rounded cursor-default bg-white">
-                        <input id="tagInput" readonly type="text" placeholder="Selecione um tamanho..." class="cursor-pointer flex-1 outline-none placeholder:text-gray-800">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                    <div>
+                        <select name="categoria_id" required class="p-3 border rounded outline-none w-full">
+                            <option value="">Selecione a Categoria</option>
+                            <?php while ($cat = mysqli_fetch_assoc($categorias)): ?>
+                                <option value="<?= $cat['id_categoria'] ?>"><?= $cat['nome'] ?></option>
+                            <?php endwhile; ?>
+                        </select>
                     </div>
-                    <ul id="optionsList" class="absolute left-0 right-0 bg-white border mt-1 max-h-40 overflow-auto hidden z-10"></ul>
+
+                    <div>
+                        <select name="time_id" required class="p-3 border rounded outline-none w-full">
+                            <option value="">Selecione o Time</option>
+                            <?php while ($time = mysqli_fetch_assoc($times)): ?>
+                                <option value="<?= $time['time_id'] ?>"><?= $time['nome'] ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+
+                    <div class="relative">
+                        <div id="tagsContainer" class="flex flex-wrap gap-2 p-2 border rounded cursor-default bg-white w-full">
+                            <input id="tagInput" readonly type="text" placeholder="Selecione um tamanho..." class="cursor-pointer flex-1 outline-none placeholder:text-gray-800 min-w-[150px] p-1">
+                        </div>
+                        <ul id="optionsList" class="absolute left-0 right-0 bg-white border mt-1 max-h-40 overflow-auto hidden z-10"></ul>
+                    </div>
+                    <input type="hidden" name="tamanho_id" id="hiddenTamanhos">
+
+                    <div>
+                        <select name="qualidade_id" required class="p-3 border rounded outline-none w-full">
+                            <option value="">Selecione a Qualidade</option>
+                            <?php while ($q = mysqli_fetch_assoc($qualidades)): ?>
+                                <option value="<?= $q['id_qualidade'] ?>"><?= $q['qualidade'] ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
                 </div>
-                <input type="hidden" name="tamanho_id" id="hiddenTamanhos">
 
-                <select name="qualidade_id" required class="p-2 border rounded outline-none">
-                    <option value="">Selecione a Qualidade</option>
-                    <?php while ($q = mysqli_fetch_assoc($qualidades)): ?>
-                        <option value="<?= $q['id_qualidade'] ?>"><?= $q['qualidade'] ?></option>
-                    <?php endwhile; ?>
-                </select>
-
-                <button type="submit" class="text-gray-800 p-2 rounded-full border border-gray-800 hover:bg-[#ed3814] hover:border-[#ed3814] hover:text-white transition duration-350 ease-in-out">Cadastrar</button>
+                <button type="submit" class="text-gray-800 p-3 rounded-md border border-gray-800 hover:bg-[#ed3814] hover:border-[#ed3814] hover:text-white transition duration-350 ease-in-out w-full sm:w-auto">Cadastrar</button>
             </form>
         </section>
     </main>
@@ -124,8 +132,8 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
         function selectTag(tag) {
             selected.push(tag.id_tamanho);
             const span = document.createElement('span');
-            span.className = 'bg-gray-200 rounded-full pl-3 flex items-center gap-1 border';
-            span.innerHTML = `${tag.tamanho} <button type="button" class="text-gray-800 font-bold cursor-pointer rounded-full px-4 py-2 hover:bg-gray-300 transition duration-350 ease-in-out">&times;</button>`;
+            span.className = 'bg-gray-200 rounded-full pl-2 flex items-center gap-1 border';
+            span.innerHTML = `${tag.tamanho} <button type="button" class="text-gray-800 font-bold cursor-pointer rounded-full px-2 py-1 hover:bg-gray-300 transition duration-350 ease-in-out">&times;</button>`;
             span.querySelector('button').addEventListener('click', () => removeTag(tag.id_tamanho, span));
             tagsContainer.insertBefore(span, tagInput);
             updateHidden();
