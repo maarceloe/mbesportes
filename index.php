@@ -34,11 +34,11 @@ require_once 'php/config.php';
   <!-- PRODUTOS -->
   <main class="flex-1">
     <section class="max-w-[1200px] mx-auto px-4 py-10">
-      <h2 class="text-3xl text-center mb-8 relative z-10">Todos os produtos</h2>
+  <h2 class="text-3xl text-center mb-6 relative z-10">Todos os produtos</h2>
 
       <!-- FILTROS -->
       <div class="max-w-[1200px] mx-0 mt-4 mb-8 justify-center items-center">
-        <form method="GET" action="index.php" class="flex flex-wrap justify-center items-center gap-2">
+        <form method="GET" action="index.php" class="flex flex-wrap justify-center items-center gap-2 sm:gap-3 md:gap-4">
 
           <!-- Categoria -->
           <select name="categoria" class="border border-gray-300 rounded-lg px-3 py-2">
@@ -85,7 +85,7 @@ require_once 'php/config.php';
           <!-- Busca -->
           <input type="text" name="busca" placeholder="Buscar produtos..."
             value="<?= isset($_GET['busca']) ? htmlspecialchars($_GET['busca']) : '' ?>"
-            class="border border-gray-300 rounded-lg px-4 py-2 w-48 m-2 outline-none">
+            class="border border-gray-300 rounded-lg px-3 py-2 w-40 sm:w-48 m-1 sm:m-2 outline-none">
 
           <!-- Botão -->
           <button type="submit"
@@ -96,8 +96,8 @@ require_once 'php/config.php';
       </div>
 
       <!-- LISTAGEM PRODUTOS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
-        <?php
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 justify-center">
+  <?php
         // ==== Filtros ====
         $where = [];
 
@@ -120,6 +120,23 @@ require_once 'php/config.php';
 
         $whereSQL = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
+        // ==== Paginação ====
+        $produtosPorPagina = 25;
+        $paginaAtual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
+
+        // Conta total de produtos
+        $sqlCount = "SELECT COUNT(DISTINCT p.id) as total FROM produtos p
+          LEFT JOIN times t ON p.time_id = t.time_id
+          LEFT JOIN categorias c ON p.categoria_id = c.id_categoria
+          LEFT JOIN qualidades q ON p.qualidade_id = q.id_qualidade
+          LEFT JOIN produtos_tamanhos pt ON pt.id_produto = p.id
+          LEFT JOIN tamanhos tm ON tm.id_tamanho = pt.id_tamanho
+          $whereSQL";
+        $resCount = mysqli_query($conexao, $sqlCount);
+        $totalProdutos = ($resCount && ($row = mysqli_fetch_assoc($resCount))) ? intval($row['total']) : 0;
+        $totalPaginas = max(1, ceil($totalProdutos / $produtosPorPagina));
+        $offset = ($paginaAtual - 1) * $produtosPorPagina;
+
         // ==== Query ====
         $sql = "SELECT p.*, t.nome as time_nome, c.nome as categoria_nome, q.qualidade,
                 GROUP_CONCAT(tm.tamanho SEPARATOR ', ') AS tamanhos
@@ -131,7 +148,8 @@ require_once 'php/config.php';
                 LEFT JOIN tamanhos tm ON tm.id_tamanho = pt.id_tamanho
                 $whereSQL
                 GROUP BY p.id
-                ORDER BY RAND()";
+                ORDER BY RAND()
+                LIMIT $produtosPorPagina OFFSET $offset";
 
         $result = mysqli_query($conexao, $sql);
 
@@ -147,7 +165,7 @@ require_once 'php/config.php';
               $favoritado = ($res_fav && mysqli_num_rows($res_fav) > 0);
             }
         ?>
-            <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
+            <div class="relative bg-white border border-gray-300 p-3 sm:p-4 md:p-5 rounded-lg text-center shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
               <a href="/mbesportes/pages/view_card.php?id=<?= $produto['id'] ?>">
                 <?php
                 $defaultFallback = '/mbesportes/assets/imgs/bola.png';
@@ -182,6 +200,23 @@ require_once 'php/config.php';
           echo '<p class="col-span-4 text-center text-gray-500">Nenhum produto encontrado.</p>';
         }
         ?>
+      </div>
+      <!-- PAGINAÇÃO -->
+      <?php if ($totalPaginas > 1): ?>
+        <div class="flex flex-wrap justify-center items-center gap-2 mt-8 mb-4">
+          <?php
+          $queryString = $_GET;
+          for ($i = 1; $i <= $totalPaginas; $i++):
+            $queryString['pagina'] = $i;
+            $url = 'index.php?' . http_build_query($queryString);
+          ?>
+            <a href="<?= htmlspecialchars($url) ?>"
+              class="px-3 py-2 rounded border border-gray-300 shadow transition-all duration-200 ease-in-out hover:bg-[#ed3814] hover:text-white <?= $i == $paginaAtual ? 'font-bold bg-[#ed3814] text-white border-[#ed3814]' : '' ?>">
+              <?= $i ?>
+            </a>
+          <?php endfor; ?>
+        </div>
+      <?php endif; ?>
       </div>
     </section>
   </main>

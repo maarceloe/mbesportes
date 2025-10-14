@@ -38,33 +38,33 @@ if ($result) {
     </div>
     <!-- PRODUTOS -->
     <main class="flex flex-col items-center justify-center">
-        <section class="w-full max-w-2xl mx-auto">
-            <img src="/mbesportes/assets/imgs/logo_mbesportes_new_2.png" alt="MB Esportes" style="max-width:120px;display:block;margin:0 auto 18px;border-radius:18px;">
+        <section class="w-full max-w-2xl mx-auto px-2 sm:px-4">
+            <img src="/mbesportes/assets/imgs/logo_mbesportes_new_2.png" alt="MB Esportes" class="block mx-auto mb-5 rounded-[18px]" style="max-width:120px;">
             <?php foreach ($cards as $card): ?>
                 <?php if (!empty($card['descricao'])): ?>
-                    <p class="mb-8 text-lg text-gray-800 text-center"><?= nl2br(htmlspecialchars($card['descricao'])) ?></p>
+                    <p class="mb-8 text-lg text-gray-800 text-center px-2 sm:px-0"><?= nl2br(htmlspecialchars($card['descricao'])) ?></p>
                 <?php endif; ?>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-8 mb-4">
                     <?php if (!empty($card['instagram'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-110 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-4 sm:p-6 cursor-pointer hover:scale-105 transition-transform duration-300 max-w-[320px] w-full sm:w-auto border-gray-800" onclick="window.open('<?= htmlspecialchars($card['instagram']) ?>', '_blank')">
                             <img src="../assets/icons/instagram.png" alt="Instagram" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Instagram</p>
                         </div>
                     <?php endif; ?>
                     <?php if (!empty($card['facebook'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-110 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-4 sm:p-6 cursor-pointer hover:scale-105 transition-transform duration-300 max-w-[320px] w-full sm:w-auto border-gray-800" onclick="window.open('<?= htmlspecialchars($card['facebook']) ?>', '_blank')">
                             <img src="../assets/icons/facebook.png" alt="Facebook" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Facebook</p>
                         </div>
                     <?php endif; ?>
                     <?php if (!empty($card['whatsapp'])): ?>
-                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-6 cursor-pointer hover:scale-110 transition-transform duration-300 w-full h-full border-gray-800" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
+                        <div class="flex items-center gap-4 bg-white rounded-2xl shadow-xl/30 p-4 sm:p-6 cursor-pointer hover:scale-105 transition-transform duration-300 max-w-[320px] w-full sm:w-auto border-gray-800" onclick="window.open('<?= htmlspecialchars($card['whatsapp']) ?>', '_blank')">
                             <img src="../assets/icons/whatsapp.png" alt="Whatsapp" class="h-10 w-10 object-contain rounded-lg" />
                             <p class="m-0 text-lg font-medium text-gray-800">Mande-nos uma mensagem!</p>
                         </div>
                     <?php endif; ?>
                 </div>
-                <div class="mt-8 text-center">
+                <div class="mt-6 text-center">
                     <?php if (!empty($card['telefone'])): ?>
                         <p class="text-lg text-gray-800">Telefone: <?= htmlspecialchars($card['telefone']) ?></p>
                     <?php endif; ?>

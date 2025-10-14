@@ -64,63 +64,87 @@ while ($row = mysqli_fetch_assoc($res_tam)) {
 <body class="font-sans flex flex-col min-h-screen bg-gray-100 text-gray-800 opacity-0 transition-opacity duration-2500">
     <?php include '../includes/navbar_index.php'; ?>
 
-    <main class="flex items-start gap-4 px-4 mt-4">
-        <div class="inline-flex max-w-fit items-center">
+    <main class="flex flex-1 items-center justify-center px-4 relative min-h-[calc(100vh-130px)]">
+        <div class="absolute top-4 left-4 z-50">
             <button type="button" onclick="window.location.href='adm_fun.php'"
-                class="w-12 h-12 ml-2 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
+                class="w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
         </div>
-
-        <section class="flex-1 max-w-[800px] mx-auto px-5 py-10 bg-white rounded-[2vw] shadow-2xl border border-gray-400 mb-6">
+        <section class="flex-1 max-w-[900px] w-full mx-auto px-5 py-8 bg-white rounded-[12px] shadow-2xl border border-gray-400">
             <h1 class="text-2xl font-bold mb-6">Edição de Produto</h1>
 
             <form id="produtoForm" action="../php/editar_produto.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 ">
                 <input type="hidden" name="id_produto" value="<?= $produto['id'] ?>">
 
-                <input type="text" name="nome" value="<?= htmlspecialchars($produto['nome']) ?>" required class="p-2 border rounded outline-none">
+                <input type="text" name="nome" value="<?= htmlspecialchars($produto['nome']) ?>" required class="p-3 border rounded outline-none w-full">
 
-                <textarea name="descricao" required class="p-2 border rounded outline-none" spellcheck="false"><?= htmlspecialchars($produto['descricao']) ?></textarea>
+                <textarea name="descricao" required class="p-3 border rounded outline-none w-full" spellcheck="false"><?= htmlspecialchars($produto['descricao']) ?></textarea>
 
-                <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none">
+                <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none w-full">
                 <p class="text-sm text-gray-500">Imagem atual: <?= htmlspecialchars($produto['imagem']) ?></p>
 
-                <select name="categoria_id" required class="p-2 border rounded outline-none">
-                    <?php mysqli_data_seek($categorias, 0); while ($cat = mysqli_fetch_assoc($categorias)): ?>
-                        <option value="<?= $cat['id_categoria'] ?>" <?= $cat['id_categoria'] == $produto['categoria_id'] ? 'selected' : '' ?>>
-                            <?= $cat['nome'] ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-
-                <select name="time_id" required class="p-2 border rounded outline-none">
-                    <?php mysqli_data_seek($times, 0); while ($time = mysqli_fetch_assoc($times)): ?>
-                        <option value="<?= $time['time_id'] ?>" <?= $time['time_id'] == $produto['time_id'] ? 'selected' : '' ?>>
-                            <?= $time['nome'] ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-
-                <div class="relative">
-                    <div id="tagsContainer" class="flex flex-wrap gap-2 p-2 border rounded cursor-default bg-white">
-                        <input id="tagInput" readonly type="text" placeholder="Selecione um tamanho..." class="cursor-pointer flex-1 outline-none placeholder:text-gray-800">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                    <div>
+                        <select name="categoria_id" required class="p-3 border rounded outline-none w-full">
+                            <?php mysqli_data_seek($categorias, 0); while ($cat = mysqli_fetch_assoc($categorias)): ?>
+                                <option value="<?= $cat['id_categoria'] ?>" <?= $cat['id_categoria'] == $produto['categoria_id'] ? 'selected' : '' ?>>
+                                    <?= $cat['nome'] ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
                     </div>
-                    <ul id="optionsList" class="absolute left-0 right-0 bg-white border mt-1 max-h-40 overflow-auto hidden z-10"></ul>
+
+                    <div>
+                        <select name="time_id" required class="p-3 border rounded outline-none w-full">
+                            <?php mysqli_data_seek($times, 0); while ($time = mysqli_fetch_assoc($times)): ?>
+                                <option value="<?= $time['time_id'] ?>" <?= $time['time_id'] == $produto['time_id'] ? 'selected' : '' ?>>
+                                    <?= $time['nome'] ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+
+                    <!-- Input de tamanhos com tags -->
+                    <div class="relative flex items-center rounded bg-white w-full">
+                        <div id="tagsContainer" class="flex flex-nowrap gap-2 p-2 border rounded cursor-default bg-white w-full overflow-x-auto whitespace-nowrap relative">
+                            <input
+                                id="tagInput"
+                                readonly
+                                type="text"
+                                placeholder="Selecione um tamanho..."
+                                class="cursor-default min-w-[120px] outline-none placeholder:text-gray-800 p-1 whitespace-nowrap">
+                            <!-- Botão de setinha -->
+                            <button id="toggleButton"
+                                type="button"
+                                class="ml-2 flex items-center justify-center text-gray-500 hover:text-black transition sm:ml-4 cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor"
+                                    class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                        </div>
+                        <ul id="optionsList" class="absolute left-0 right-0 bg-white border mt-1 max-h-40 overflow-auto hidden z-10"></ul>
+                    </div>
+                    <input type="hidden" name="tamanho_id" id="hiddenTamanhos" value="<?= implode(',', $tamanhos_produto) ?>">
+
+                    <div>
+                        <select name="qualidade_id" required class="p-3 border rounded outline-none w-full">
+                            <?php mysqli_data_seek($qualidades, 0); while ($q = mysqli_fetch_assoc($qualidades)): ?>
+                                <option value="<?= $q['id_qualidade'] ?>" <?= $q['id_qualidade'] == $produto['qualidade_id'] ? 'selected' : '' ?>>
+                                    <?= $q['qualidade'] ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
                 </div>
-                <input type="hidden" name="tamanho_id" id="hiddenTamanhos" value="<?= implode(',', $tamanhos_produto) ?>">
 
-                <select name="qualidade_id" required class="p-2 border rounded outline-none">
-                    <?php mysqli_data_seek($qualidades, 0); while ($q = mysqli_fetch_assoc($qualidades)): ?>
-                        <option value="<?= $q['id_qualidade'] ?>" <?= $q['id_qualidade'] == $produto['qualidade_id'] ? 'selected' : '' ?>>
-                            <?= $q['qualidade'] ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-
-                <button type="submit" class="text-gray-800 p-2 rounded-full border border-gray-800 hover:bg-[#ed3814] hover:border-[#ed3814] hover:text-white transition duration-350 ease-in-out">Salvar Alterações</button>
+                <button type="submit" class="text-gray-800 p-3 rounded-md border border-gray-800 hover:bg-[#ed3814] hover:border-[#ed3814] hover:text-white transition duration-350 ease-in-out w-full sm:w-auto">Salvar Alterações</button>
             </form>
         </section>
     </main>
@@ -129,12 +153,12 @@ while ($row = mysqli_fetch_assoc($res_tam)) {
 
     <script>
         const tamanhos = <?= json_encode($tamanhos) ?>;
-        let selected = <?= json_encode($tamanhos_produto) ?>;
-
         const tagInput = document.getElementById('tagInput');
         const tagsContainer = document.getElementById('tagsContainer');
         const optionsList = document.getElementById('optionsList');
         const hiddenTamanhos = document.getElementById('hiddenTamanhos');
+        const toggleButton = document.getElementById('toggleButton');
+        let selected = <?= json_encode($tamanhos_produto) ?>;
 
         function renderOptions() {
             optionsList.innerHTML = '';
@@ -149,32 +173,37 @@ while ($row = mysqli_fetch_assoc($res_tam)) {
             optionsList.style.display = filtered.length ? 'block' : 'none';
         }
 
-        function selectTag(tag) {
-            selected.push(tag.id_tamanho);
-            renderTags();
-            updateHidden();
-            renderOptions();
-        }
-
-        function removeTag(id) {
-            selected = selected.filter(tid => tid !== id);
-            renderTags();
-            updateHidden();
-            renderOptions();
-        }
-
-        function renderTags() {
-            tagsContainer.innerHTML = '';
+        function renderSelectedTags() {
+            // Remove all tags except the input
+            Array.from(tagsContainer.querySelectorAll('span')).forEach(span => span.remove());
             selected.forEach(id => {
                 const t = tamanhos.find(tt => tt.id_tamanho == id);
                 if (t) {
                     const span = document.createElement('span');
-                    span.className = 'bg-gray-200 rounded-full pl-3 flex items-center gap-1 border';
-                    span.innerHTML = `${t.tamanho} <button type="button" class="text-gray-800 font-bold cursor-pointer rounded-full px-4 py-2 hover:bg-gray-300 transition" onclick="removeTag(${id})">&times;</button>`;
-                    tagsContainer.appendChild(span);
+                    span.className = 'bg-gray-200 rounded-full pl-2 flex items-center gap-1 border whitespace-nowrap';
+                    span.innerHTML = `${t.tamanho} <button type="button" class="text-gray-800 font-bold cursor-pointer rounded-full px-2 py-1 hover:bg-gray-300 transition duration-350 ease-in-out">&times;</button>`;
+                    span.querySelector('button').addEventListener('click', () => removeTag(t.id_tamanho, span));
+                    tagsContainer.insertBefore(span, tagInput);
                 }
             });
-            tagsContainer.appendChild(tagInput);
+            updateHidden();
+            adjustInputWidth();
+        }
+
+        function selectTag(tag) {
+            selected.push(tag.id_tamanho);
+            renderSelectedTags();
+            tagInput.value = '';
+            renderOptions();
+            tagsContainer.scrollLeft = tagsContainer.scrollWidth;
+        }
+
+        function removeTag(id, element) {
+            selected = selected.filter(tid => tid !== id);
+            element.remove();
+            updateHidden();
+            adjustInputWidth();
+            renderOptions();
         }
 
         function updateHidden() {
@@ -182,13 +211,30 @@ while ($row = mysqli_fetch_assoc($res_tam)) {
             tagInput.placeholder = selected.length > 0 ? '' : 'Selecione um tamanho...';
         }
 
-        renderTags();
-        updateHidden();
+        function adjustInputWidth() {
+            if (selected.length > 0) {
+                tagInput.style.minWidth = '1px';
+                tagInput.style.width = 'auto';
+            } else {
+                tagInput.style.minWidth = '120px';
+            }
+        }
 
-        tagInput.addEventListener('focus', renderOptions);
         document.addEventListener('click', e => {
             if (!tagsContainer.contains(e.target)) optionsList.style.display = 'none';
         });
+
+        toggleButton.addEventListener('click', () => {
+            if (optionsList.style.display === 'block') {
+                optionsList.style.display = 'none';
+            } else {
+                renderOptions();
+            }
+        });
+
+        // Render tags on load
+        renderSelectedTags();
+        updateHidden();
     </script>
 </body>
 </html>

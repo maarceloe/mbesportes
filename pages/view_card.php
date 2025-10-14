@@ -65,7 +65,7 @@ $row = mysqli_fetch_assoc($result);
         </button>
     </div>
     <main class="flex-1 flex flex-col items-center justify-center py-10">
-        <section class="w-full max-w-4xl mx-auto">
+        <section class="w-full max-w-4xl mx-auto px-2 sm:px-4">
             <?php
             $defaultFallback = '/mbesportes/assets/imgs/bola.png';
             if (!empty($produto['imagem'])) {
@@ -79,12 +79,12 @@ $row = mysqli_fetch_assoc($result);
                 $imgSrc = $defaultFallback;
             }
             ?>
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-10">
-                <div class="flex-shrink-0 flex justify-center items-center w-full md:w-[50%]">
-                    <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-w-[500px] max-h-[500px] object-contain rounded-xl">
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-10">
+                <div class="flex-shrink-0 flex justify-center items-center w-full md:w-[50%] mb-6 md:mb-0">
+                    <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] max-h-[320px] sm:max-h-[400px] md:max-h-[500px] object-contain rounded-xl mx-auto">
                 </div>
-                <div class="w-full md:w-[50%] flex flex-col justify-start items-start">
-                    <h2 class="font-bold text-3xl mb-4 text-gray-900 text-left w-full"><?= htmlspecialchars($produto['nome']) ?></h2>
+                <div class="w-full md:w-[50%] flex flex-col justify-start items-start px-1 sm:px-4">
+                    <h2 class="font-bold text-2xl sm:text-3xl mb-4 text-gray-900 text-left w-full break-words"><?= htmlspecialchars($produto['nome']) ?></h2>
                     <p class="text-base text-gray-800 mb-2">Categoria: <span class="font-semibold"><?= htmlspecialchars($produto['categoria_nome']) ?></span></p>
                     <p class="text-base text-gray-800 mb-2">Time: <span class="font-semibold"><?= htmlspecialchars($produto['time_nome']) ?></span></p>
                     <p class="text-base text-gray-800 mb-2">Tamanhos disponíveis:
@@ -93,7 +93,7 @@ $row = mysqli_fetch_assoc($result);
                         </span>
                     </p>
                     <p class="text-base text-gray-800 mb-2">Qualidade: <span class="font-semibold"><?= htmlspecialchars($produto['qualidade']) ?></span></p>
-                    <p class="text-base text-gray-800 mb-6 text-left w-full"><?= htmlspecialchars($produto['descricao']) ?></p>
+                    <p class="text-base text-gray-800 mb-6 text-left w-full break-words"><?= htmlspecialchars($produto['descricao']) ?></p>
                     <?php
                     // Verifica se o usuário está logado e se o produto está favoritado
                     $favoritado = false;
@@ -106,14 +106,14 @@ $row = mysqli_fetch_assoc($result);
                     }
                     ?>
                     <button
-                        class="btn-favorito mt-2 px-6 py-2 rounded-full text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-300 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814] <?= $favoritado ? 'favoritado bg-white' : 'bg-white' ?>"
-                        style="min-width:150px; min-height:48px;"
+                        class="btn-favorito mt-2 px-4 sm:px-6 py-2 rounded-full text-gray-800 font-semibold shadow-xl border-2 border-gray-300 transition duration-300 flex items-center justify-center text-lg hover:text-white hover:border-[#ed3814] <?= $favoritado ? 'favoritado bg-white' : 'bg-white' ?>"
+                        style="min-width:120px; min-height:44px;"
                         data-produto-id="<?= $produto['id'] ?>"
                         onclick="verificaLogin(this)">
                         <span class="heart-icon text-2xl"><?= $favoritado ? '❤️' : '🤍' ?></span>
                     </button>
                     <a href="<?php echo $row['whatsapp']; ?>" target="_blank"
-                        class="px-4 py-2 mt-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 hover:scale-110 shadow-xl">
+                        class="px-4 py-2 mt-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 hover:scale-105 shadow-xl w-full sm:w-auto text-center">
                         Falar no WhatsApp
                     </a>
                 </div>

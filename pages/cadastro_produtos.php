@@ -42,14 +42,14 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
 
     <main class="flex flex-1 items-center justify-center px-4 relative min-h-[calc(100vh-130px)]">
         <div class="absolute top-4 left-4 z-50">
-                <button type="button" onclick="window.location.href='adm_fun.php'"
-                    class="w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-            </div>
+            <button type="button" onclick="window.location.href='adm_fun.php'"
+                class="w-12 h-12 flex items-center justify-center rounded-full bg-[#ed3814] text-white shadow-xl transition-transform duration-300 hover:-translate-x-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[#ed3814] cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+        </div>
         <section class="flex-1 max-w-[900px] w-full mx-auto px-5 py-8 bg-white rounded-[12px] shadow-2xl border border-gray-400">
             <h1 class="text-2xl font-bold mb-6">Cadastrar Produto</h1>
 
@@ -81,9 +81,27 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
                         </select>
                     </div>
 
-                    <div class="relative">
-                        <div id="tagsContainer" class="flex flex-wrap gap-2 p-2 border rounded cursor-default bg-white w-full">
-                            <input id="tagInput" readonly type="text" placeholder="Selecione um tamanho..." class="cursor-pointer flex-1 outline-none placeholder:text-gray-800 min-w-[150px] p-1">
+                    <!-- Input de tamanhos com tags -->
+                    <div class="relative flex items-center rounded bg-white w-full">
+                        <div id="tagsContainer" class="flex flex-nowrap gap-2 p-2 border rounded cursor-default bg-white w-full overflow-x-auto whitespace-nowrap relative">
+                            <input
+                                id="tagInput"
+                                readonly
+                                type="text"
+                                placeholder="Selecione um tamanho..."
+                                class="cursor-default min-w-[120px] outline-none placeholder:text-gray-800 p-1 whitespace-nowrap">
+                            <!-- Botão fake à direita -->
+                            <button id="toggleButton"
+                                type="button"
+                                class="ml-2 flex items-center justify-center text-gray-500 hover:text-black transition sm:ml-4 cursor-pointer">
+                                <!-- Ícone de seta (lucide ou heroicons, por exemplo) -->
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor"
+                                    class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
                         </div>
                         <ul id="optionsList" class="absolute left-0 right-0 bg-white border mt-1 max-h-40 overflow-auto hidden z-10"></ul>
                     </div>
@@ -108,11 +126,11 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
 
     <script>
         const tamanhos = <?= json_encode($tamanhos) ?>;
-
         const tagInput = document.getElementById('tagInput');
         const tagsContainer = document.getElementById('tagsContainer');
         const optionsList = document.getElementById('optionsList');
         const hiddenTamanhos = document.getElementById('hiddenTamanhos');
+        const toggleButton = document.getElementById('toggleButton');
 
         let selected = [];
 
@@ -132,38 +150,52 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
         function selectTag(tag) {
             selected.push(tag.id_tamanho);
             const span = document.createElement('span');
-            span.className = 'bg-gray-200 rounded-full pl-2 flex items-center gap-1 border';
+            span.className = 'bg-gray-200 rounded-full pl-2 flex items-center gap-1 border whitespace-nowrap';
             span.innerHTML = `${tag.tamanho} <button type="button" class="text-gray-800 font-bold cursor-pointer rounded-full px-2 py-1 hover:bg-gray-300 transition duration-350 ease-in-out">&times;</button>`;
             span.querySelector('button').addEventListener('click', () => removeTag(tag.id_tamanho, span));
             tagsContainer.insertBefore(span, tagInput);
             updateHidden();
+            adjustInputWidth();
             tagInput.value = '';
             renderOptions();
+
+            // Faz o container rolar automaticamente pro final
+            tagsContainer.scrollLeft = tagsContainer.scrollWidth;
         }
 
         function removeTag(id, element) {
             selected = selected.filter(tid => tid !== id);
             element.remove();
             updateHidden();
+            adjustInputWidth();
             renderOptions();
         }
 
         function updateHidden() {
             hiddenTamanhos.value = selected.join(',');
+            tagInput.placeholder = selected.length > 0 ? '' : 'Selecione um tamanho...';
+        }
 
-            // Esconder placeholder se houver pelo menos 1 tag
+        document.addEventListener('click', e => {
+            if (!tagsContainer.contains(e.target)) optionsList.style.display = 'none';
+        });
+
+        function adjustInputWidth() {
             if (selected.length > 0) {
-                tagInput.placeholder = '';
+                tagInput.style.minWidth = '1px';
+                tagInput.style.width = 'auto';
             } else {
-                tagInput.placeholder = 'Selecione um tamanho...';
+                tagInput.style.minWidth = '120px';
             }
         }
 
-
-        tagInput.addEventListener('focus', renderOptions);
-        tagInput.addEventListener('input', renderOptions);
-        document.addEventListener('click', e => {
-            if (!tagsContainer.contains(e.target)) optionsList.style.display = 'none';
+        toggleButton.addEventListener('click', () => {
+            if (optionsList.style.display === 'block') {
+                optionsList.style.display = 'none';
+            } else {
+                renderOptions();
+                tagInput.focus();
+            }
         });
     </script>
 
