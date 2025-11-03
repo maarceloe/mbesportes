@@ -61,7 +61,7 @@ $result = $stmt->get_result();
 
 
         <section class="max-w-[1200px] mx-auto px-5 py-10">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
+            <div id="favoritesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($produto = $result->fetch_assoc()): ?>
                         <?php
@@ -79,7 +79,7 @@ $result = $stmt->get_result();
                             $imgSrc = $defaultFallback;
                         }
                         ?>
-                        <div class="relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
+                        <div class="favorite-card relative bg-white border border-gray-300 p-5 rounded-lg text-center shadow-lg transform transition-transform duration-500 hover:scale-110">
                             <a href="/mbesportes/pages/view_card.php?id=<?= $produto['id'] ?>">
                                 <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" loading="lazy" class="w-full max-h-[180px] object-contain mb-4 rounded-md">
                                 <h3 class="font-semibold text-lg mb-2"><?= htmlspecialchars($produto['nome']) ?></h3>
@@ -95,9 +95,10 @@ $result = $stmt->get_result();
                             </button>
                         </div>
                     <?php endwhile; ?>
-                <?php else: ?>
-                    <p class="col-span-4 text-center text-gray-500">Você ainda não favoritou nenhum produto.</p>
                 <?php endif; ?>
+                <?php // sempre renderiza a mensagem vazia (visível somente se não houver favoritos no carregamento)
+                $emptyVisible = ($result->num_rows == 0) ? '' : 'hidden'; ?>
+                <p id="emptyFavoritesMsg" class="col-span-4 text-center text-gray-500 <?= $emptyVisible ?>">Você ainda não favoritou nenhum produto.</p>
             </div>
         </section>
     </main>

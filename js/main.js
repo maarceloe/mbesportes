@@ -168,6 +168,37 @@ window.toggleFavorito = function (botao) {
   icone.textContent = fav ? "❤️" : "🤍";
 };
 
+// Animação de saída e remoção do card (colapso suave)
+function animateAndRemoveCard(card) {
+  if (!card || card.dataset.animating) return;
+  card.dataset.animating = '1';
+
+  // Fixar altura atual para animar o colapso
+  const startHeight = card.offsetHeight;
+  card.style.boxSizing = 'border-box';
+  card.style.height = startHeight + 'px';
+  card.style.overflow = 'hidden';
+  card.style.transition = 'height 500ms ease, margin 500ms ease, padding 500ms ease, opacity 500ms ease, transform 500ms ease';
+
+  // Force repaint
+  // eslint-disable-next-line no-unused-expressions
+  card.offsetHeight;
+
+  // Aplicar transformações para saída
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(-20px) scale(0.95)';
+  card.style.paddingTop = '0';
+  card.style.paddingBottom = '0';
+  card.style.marginTop = '0';
+  card.style.marginBottom = '0';
+  card.style.height = '0px';
+
+  // Remover elemento ao final da animação
+  setTimeout(() => {
+    if (card && card.parentNode) card.parentNode.removeChild(card);
+  }, 520);
+}
+
 // Animação do hero
 window.addEventListener("load", () => {
   const hero = document.querySelector(".hero");
@@ -322,9 +353,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const productId = this.getAttribute("data-produto-id");
-      const icone = this.querySelector(".heart-icon");
-      const card = this.closest(".relative"); // card container
+  const productId = this.getAttribute("data-produto-id");
+  const icone = this.querySelector(".heart-icon");
+  // only target favorite listing cards for animated removal
+  const card = this.closest('.favorite-card');
 
       fetch("/mbesportes/php/favoritar.php", {
         method: "POST",
@@ -336,17 +368,12 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.status === "favorited") {
             this.classList.add("favoritado");
             if (icone) icone.textContent = "❤️";
-          } else if (data.status === "unfavorited" && card) {
+          } else if (data.status === "unfavorited") {
             this.classList.remove("favoritado");
             if (icone) icone.textContent = "🤍";
-
-            // // Animação de saída do card
-            // card.style.transition = "all 0.5s ease";
-            // card.style.opacity = 0;
-            // card.style.transform = "translateY(-20px) scale(0.8)";
-            // setTimeout(() => {
-            //   card.remove(); // remove do DOM depois da animação
-            // }, 500); // duração da animação
+            if (card) {
+              animateAndRemoveCard(card);
+            }
           }
         })
         .catch((err) => console.error("Erro:", err));
