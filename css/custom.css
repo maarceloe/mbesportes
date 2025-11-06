@@ -55,16 +55,19 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* nova animação sutil para o container .hero (não move o texto de forma agressiva) */
 @keyframes hero-subtle-breathe {
-  0%   { filter: brightness(1); transform: translateY(0) scale(1); }
-  50%  { filter: brightness(1.03); transform: translateY(-4px) scale(1.005); }
-  100% { filter: brightness(1); transform: translateY(0) scale(1); }
+  0%   { filter: brightness(1); transform: translateY(0); }
+  50%  { filter: brightness(1.03); transform: translateY(-4px); }
+  100% { filter: brightness(1); transform: translateY(0); }
 }
 
 /* Animação para as faixas de logos: usamos transform em um elemento 200% largo
    para gerar um loop suave sem salto (translateX evita 'teletransporte'). */
 @keyframes logos-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translate3d(0,0,0); }
+  /* usar um valor ligeiramente maior que -50% evita artefatos de subpixel
+     / rounding que em alguns navegadores podem mostrar um pequeno corte
+     no final do ciclo. */
+  to   { transform: translate3d(-50.0001%,0,0); }
 }
 
 /* Background-position based scroll to avoid a hard cut at the end of the cycle.
@@ -72,6 +75,14 @@ body::-webkit-scrollbar-thumb:hover {
 @keyframes logos-scroll-bg {
   from { background-position: 0% 50%; }
   to   { background-position: 100% 50%; }
+}
+
+/* Rotação contínua (aplicada junto com o background-position existing)
+   Mantém o "gradient roll" no ::before do .hero e soma uma rotação suave
+   na faixa de logos. Ajuste a duração conforme preferir (60s é suave). */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* Hero gradient animation */
@@ -85,6 +96,11 @@ body::-webkit-scrollbar-thumb:hover {
   /* animação sutil contínua sem cortar */
   will-change: transform, filter;
   animation: hero-subtle-breathe 14s ease-in-out infinite;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  box-sizing: border-box;
 }
 
 .hero::before {
@@ -121,7 +137,9 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* cada faixa */
 .hero-overlay .logos {
-  /* Cart larga 200% contendo a imagem repetida; ao mover -50% obtemos um loop sem corte */
+  /* Container largo (200%) que mantém o background repetido em uma
+    única camada — isso evita dividir a imagem entre duas caixas e
+    elimina cortes visíveis entre escudos. */
   position: absolute;
   left: 0;
   top: 0;
@@ -130,9 +148,13 @@ body::-webkit-scrollbar-thumb:hover {
   background: url('/mbesportes/assets/imgs/logosHeader/logos-strip.png') repeat-x center/auto 150px;
   opacity: 0.35;
 
-  /* animação contínua usando background-position para evitar cortes secos no fim do ciclo */
-  animation: logos-scroll-bg 30s linear infinite;
-  will-change: background-position, opacity;
+  animation: logos-scroll 30s linear infinite;
+  will-change: transform, opacity;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* (kept) keyframes logos-scroll defined above — translateX -50% is used for seamless loop */
