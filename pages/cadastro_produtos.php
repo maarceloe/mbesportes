@@ -58,7 +58,7 @@ while ($row = mysqli_fetch_assoc($tamanhos_result)) {
             <?php endif; ?>
 
             <form id="produtoForm" action="../php/cadastrar_produtos.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 ">
-                <input type="text" name="nome" placeholder="Nome do Produto" required class="p-3 border rounded outline-none w-full">
+                <input type="text" name="nome" placeholder="Nome do Produto" autocomplete="off" required class="p-3 border rounded outline-none w-full">
                 <textarea name="descricao" placeholder="Descrição" required class="p-3 border rounded outline-none w-full" spellcheck="false"></textarea>
                 <input type="file" name="imagem" accept="image/*" class="p-2 border rounded outline-none w-full">
 

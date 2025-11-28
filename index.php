@@ -168,7 +168,7 @@ require_once 'php/config.php';
             <div class="relative bg-white border border-gray-300 p-3 sm:p-4 md:p-5 rounded-lg text-center shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
               <a href="/mbesportes/pages/view_card.php?id=<?= $produto['id'] ?>">
                 <?php
-                $defaultFallback = '/mbesportes/assets/img/sem_imagem.png';
+                $defaultFallback = '/mbesportes/assets/imgs/bola.png';
                 if (!empty($produto['imagem'])) {
                   $val = trim($produto['imagem']);
                   if (preg_match('#^https?://#i', $val)) {

@@ -77,10 +77,10 @@ while ($row = mysqli_fetch_assoc($res_tam)) {
         <section class="flex-1 max-w-[900px] w-full mx-auto px-5 py-8 bg-white rounded-[12px] shadow-2xl border border-gray-400">
             <h1 class="text-2xl font-bold mb-6">Edição de Produto</h1>
 
-            <form id="produtoForm" action="../php/editar_produto.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 ">
+            <form id="produtoForm" action="../php/editar_produtos.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 ">
                 <input type="hidden" name="id_produto" value="<?= $produto['id'] ?>">
 
-                <input type="text" name="nome" value="<?= htmlspecialchars($produto['nome']) ?>" required class="p-3 border rounded outline-none w-full">
+                <input type="text" name="nome" value="<?= htmlspecialchars($produto['nome']) ?>" autocomplete="off" class="p-3 border rounded outline-none w-full">
 
                 <textarea name="descricao" required class="p-3 border rounded outline-none w-full" spellcheck="false"><?= htmlspecialchars($produto['descricao']) ?></textarea>
 
